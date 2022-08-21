@@ -109,8 +109,7 @@ const FarAwayHero = () => {
               }
             } />
           <Typography color='primary' fontWeight={600} fontSize={24} style={{ padding: '2%' }} >
-            {resultcd Box..
-            >0? (range===0?(`How far away? use the slider to set the range`):`${suggestedCountries.country[range / 100].length} Countries at ${range}km` ):'You need to set your departure location first'}
+            {result >0? (range===0?(`How far away? use the slider to set the range`):`${suggestedCountries.country[range / 100].length} Countries at ${range}km` ):'You need to set your departure location first'}
           </Typography>
           <RangeSlider  sliderHandel={sliderHandel} />
         </CardContent>
