@@ -1,57 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { React, useEffect, useRef } from 'react'
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
+import NavBar from './screens/NavBar';
+import Test from './screens/Test'
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { checkUser, selectAuth } from './app/context/auth/authSlice';
+import { fetchAirportsAsync } from './app/context/locations/airports/airportsSlice'
+import { fetchCountriesAsync } from './app/context/locations/countries/countriesSlice'
+import FarAway from './screens/FarAway';
+
+
+
+
 
 function App() {
+  const dispatch = useDispatch()
+  const runCheckUser = useRef(false)
+  const runFetchData = useRef(true)
+
+  const { accessToken } = useSelector(selectAuth)
+
+  useEffect(() => {
+    dispatch(checkUser())
+    if (runCheckUser.current === true) {
+      const fetchUser = async () => {
+        dispatch(checkUser())
+      }
+      fetchUser()
+    }
+    return () => {
+      runCheckUser.current = true
+    }
+    // eslint-disable-next-line
+  }, [accessToken]);
+
+
+  useEffect(() => {
+    if (runFetchData.current === true) {
+      const fetchData = async () => {
+        dispatch(fetchAirportsAsync())
+        dispatch(fetchCountriesAsync())
+      }
+      fetchData()
+      return () => {
+        runFetchData.current = false
+      }
+    }
+
+    // eslint-disable-next-line
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Routes>
+      <Route path='/' element={<NavBar />}>
+        <Route index element={<FarAway />} />
+        <Route path='/test' element={<Test />} />
+      </Route>
+    </Routes>
+
   );
 }
 
