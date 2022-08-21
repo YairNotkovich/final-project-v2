@@ -23,7 +23,7 @@ class AirportSerializer(ModelSerializer):
 
     class Meta:
         model = Airport
-        fields= ['id','iata_code','name', 'city','country_id','country_name']
+        fields = '__all__'
 
 class airlineSerializer(ModelSerializer):
 

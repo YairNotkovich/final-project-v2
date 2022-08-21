@@ -92,6 +92,7 @@ class Airport(models.Model):
 
     icao_code = models.CharField(max_length=4)
     iata_code = models.CharField(max_length=3)
+    display_name= models.CharField(max_length=50,default='')
     name = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     country_id = models.ForeignKey(Country, on_delete=models.CASCADE, null=False)

@@ -24,5 +24,12 @@ class Command(BaseCommand):
                 lon_decimal=airport['lon_decimal'], #15
                 )
             except Exception as e: input(f'''{airport['country']},{e}''')
+
+    def updateDisplayName(self):
+        airports = Airport.objects.all()
+        for airport in airports:
+            airport.display_name = f'{airport.city} ({airport.iata_code})'
+            airport.save()
     def handle(self, *args, **options):
-        self.setAirports()
+        # self.setAirports()
+        self.updateDisplayName()
