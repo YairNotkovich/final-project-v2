@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux/es/exports'
-import { selectRangedAirports } from '../../app/context/locations/airports/airportsSlice'
+import { selectRangedAirports } from '../../context/locations/airports/airportsSlice'
 import { useDispatch } from 'react-redux/es/exports'
 import Box from '@mui/material/Box';
-import { Slider } from '@mui/material';
-import { selectChartData, groupCountriesByRange, setSuggested } from '../../app/context/locations/countries/countriesSlice.js'
+
+import Slider from '@mui/material/Slider';
+
+import { selectChartData, groupCountriesByRange, setSuggested } from '../../context/locations/countries/countriesSlice.js'
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -57,18 +59,17 @@ function valuetext(value) {
   return `${value}`;
 }
 const RangeSlider = (props) => {
-
+  const { sliderHandel, max, step, marks, disabled } = props
   const dispatch = useDispatch()
   const rangedAirports = useSelector(selectRangedAirports)
   const [sliderValue, setSliderValue] = useState(0)
   const [data, setData] = useState(useSelector(selectChartData))
-  const [marks, setMarks] = useState(null)
   useEffect(() => {
     const generateData = () => {
       const range = groupCountriesByRange(rangedAirports).labels
       const countrySets = groupCountriesByRange(rangedAirports).data
       const countries = countrySets.map(set => Array.from(set))
-      
+
       setData({
         labels: range,
         datasets: [
@@ -80,9 +81,10 @@ const RangeSlider = (props) => {
       return { range: range, country: countries }
     }
     const dataSet = generateData()
-    
+
     dispatch(setSuggested(dataSet))
-    
+
+    // eslint-disable-next-line
   }, [rangedAirports])
 
 
@@ -91,22 +93,23 @@ const RangeSlider = (props) => {
 
   }
   const handleClick = () => {
-    props.sliderHandel(sliderValue)
+    sliderHandel(sliderValue)
   }
-
   return (
     <Box sx={{ width: 'inherit' }}>
       <Slider
+        marks={marks}
+        disabled={disabled}
+        track={false}
+        max={max}
+        step={step}
         onChange={handelChange}
         onChangeCommitted={handleClick}
         aria-label="Range"
         defaultValue={0}
         valueLabelFormat={valueLabelFormat}
         getAriaValueText={valuetext}
-        step={100}
         valueLabelDisplay="auto"
-       
-        max={20000}
       />
       <Box sx={{ height: '45px' }}>
         <Bar options={options} data={data} />
@@ -114,5 +117,5 @@ const RangeSlider = (props) => {
     </Box>
   )
 }
-
 export default RangeSlider
+

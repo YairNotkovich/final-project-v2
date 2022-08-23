@@ -1,6 +1,6 @@
 import { React, useState } from 'react'
 import FormInput from '../form-input/form-input';
-import { LoginAsync } from '../../app/context/auth/authSlice'
+import { LoginAsync } from '../../context/auth/authSlice'
 import { useDispatch } from 'react-redux';
 import './temp.scss';
 import './LogInForm.styles.scss'

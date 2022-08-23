@@ -15,7 +15,12 @@ export const AUTH_URL = {
 
 export const ADMIN_URL = {
     LOGIN:"auth/authenticate/",
-    USER_PERMS:"auth/fetch_user_perms/"
+ //   USER_PERMS:"auth/fetch_user_perms/"
+}
+
+export const USER_URL = {
+    GET_PROFILE:"user/userprofile/<id>",
+    CREATE_PROFILE:"user/create_profile/",
 }
 
 export const CUSTOMER_URL = {

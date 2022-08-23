@@ -14,13 +14,13 @@ import NavContainer from '../components/nav bar/NavBarContainer';
 import Logo from '../components/logo/Logo';
 import AvatarMenu from '../components/nav bar/AvatarMenu';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuth, showPopUp } from '../app/context/auth/authSlice'
+import { selectAuth, showPopUp } from '../context/auth/authSlice'
 import SignInPopUp from '../components/sign in popup/SigninPopup';
 
 
 
 
-const pages = [
+const anonPages = [
   { name: 'Far away', to: '/', icon: '' },
   { name: 'Places', to: '/test', icon: '' },
   { name: 'Find a flight', to: '/test', icon: '' },
@@ -29,13 +29,14 @@ const pages = [
 
 
 
-const ResponsiveAppBar = () => {
+const EscAppBar = () => {
 
   const dispatch = useDispatch()
 
-  const { authenticated, PopupState } = useSelector(selectAuth)
+  const { authenticated, PopupState, role } = useSelector(selectAuth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [pages, setPages] = React.useState([])
   const navigate = useNavigate()
 
   const handleOpenNavMenu = (event) => {
@@ -53,8 +54,17 @@ const ResponsiveAppBar = () => {
     setAnchorElUser(null);
   };
 
-
-
+  const defPages = ()=>{
+    if (typeof (role) == "undefined") {
+      setPages(anonPages)
+    }
+    setPages(anonPages)
+  }
+ React.useEffect(() =>  defPages()
+ 
+     // eslint-disable-next-line
+ , [authenticated])
+ 
   return (
     <>
       <NavContainer  >
@@ -143,4 +153,4 @@ const ResponsiveAppBar = () => {
     </>
   );
 };
-export default ResponsiveAppBar;
+export default EscAppBar;

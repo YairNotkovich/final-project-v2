@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {logOut} from '../../app/context/auth/authSlice';
+import {logOut} from '../../context/auth/authSlice';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';

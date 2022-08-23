@@ -3,8 +3,6 @@ import {
   Stack,
   Card,
   Grid,
-  CardActions,
-  Box,
   CardContent,
   CardMedia,
   Typography,
@@ -12,11 +10,10 @@ import {
 
 import RangeSlider from './slider input/rangeSlider';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
-import { useState, useEffect } from 'react'
-import { useSelector,useDispatch } from 'react-redux/es/exports'
-import { selectAirports } from '../app/context/locations/airports/airportsSlice'
-import { fetchRangedAirportsAsync, selectRangedAirports, initRangedAirports } from '../app/context/locations/airports/airportsSlice'
-import { selectChartData, selectSuggested, initSuggested, selectCountries } from '../app/context/locations/countries/countriesSlice'
+import { useSelector, useDispatch } from 'react-redux/es/exports'
+import { selectAirports } from '../context/locations/airports/airportsSlice'
+import { fetchRangedAirportsAsync, selectRangedAirports, initRangedAirports } from '../context/locations/airports/airportsSlice'
+import {  selectSuggested, initSuggested } from '../context/locations/countries/countriesSlice'
 import CountryCard from './coutry-card/CountryCard';
 
 
@@ -24,12 +21,11 @@ const FarAwayHero = () => {
 
   const dispatch = useDispatch()
   const airports = useSelector(selectAirports)
-  const countries = useSelector(selectCountries)
   const suggestedCountries = useSelector(selectSuggested)
   const rangedAirports = useSelector(selectRangedAirports)
-  const [result, setResult] = useState(false)
-  const [range, setRange] = useState(0)
-  const [resultAirports, setResultAirports] = useState([])
+  const [result, setResult] = React.useState(false)
+  const [range, setRange] = React.useState(0)
+  const [resultAirports, setResultAirports] = React.useState([])
 
 
 
@@ -38,16 +34,16 @@ const FarAwayHero = () => {
     const minRange = range - 50
     const MaxRange = range + 100
     const airports = rangedAirports.filter(
-        airport => (parseInt(airport.range) <= MaxRange && parseInt(airport.range) >= minRange) && airport)
-        setResultAirports(airports)
-
-}, [range])
+      airport => (parseInt(airport.range) <= MaxRange && parseInt(airport.range) >= minRange) && airport)
+    setResultAirports(airports)
+    
+    // eslint-disable-next-line
+  }, [range])
 
 
   const sliderHandel = (value) => {
     setRange(value)
   }
-
 
 
   const handleChange = (item) => {
@@ -56,6 +52,8 @@ const FarAwayHero = () => {
       dispatch(initRangedAirports())
       dispatch(initSuggested())
     }
+    setResult(false)
+
   }
 
   const handleOnSelect = (item) => {
@@ -89,37 +87,48 @@ const FarAwayHero = () => {
             alt='freedom'
             image={require('../assets/freedom.jpeg')}
           > </CardMedia>
-          <Typography color='primary' fontWeight={600} fontSize={24} style={{ padding: '2%' }} >
+          <Typography color='primary' fontWeight={600} fontSize={20} style={{ padding: '2%' }} >
             Where from?
           </Typography>
-          <ReactSearchAutocomplete
-            items={airports}
-            onClear={handleClear}
-            onSelect={handleOnSelect}
-            formatResult={handleResultFormat}
-            onSearch={handleChange}
-            autoFocus
-            fuseOptions={{ keys: ["iata_code", "name", "city", "country_name"] }}
-            resultStringKeyName="display_name"
-            placeholder='Enter Departure location'
-            styling={
-              {
-                borderRadius: "4px",
-                boxShadow: "rgba(52, 152, 219, 1) 0px 1px 6px 0px"
-              }
-            } />
-          <Typography color='primary' fontWeight={600} fontSize={24} style={{ padding: '2%' }} >
-            {result >0? (range===0?(`How far away? use the slider to set the range`):`${suggestedCountries.country[range / 100].length} Countries at ${range}km` ):'You need to set your departure location first'}
+          <div >
+            <ReactSearchAutocomplete
+              items={airports}
+              onClear={handleClear}
+              onSelect={handleOnSelect}
+              formatResult={handleResultFormat}
+              onSearch={handleChange}
+              autoFocus
+              fuseOptions={{ keys: ["iata_code", "name", "city", "country_name"] }}
+              resultStringKeyName="display_name"
+              placeholder='Enter Departure location'
+              styling={
+                {
+                  borderRadius: "4px",
+                  boxShadow: "rgba(52, 152, 219, 1) 0px 1px 6px 0px"
+                }
+              } />
+          </div>
+          <Typography color='primary' fontWeight={600} fontSize={20} padding={2}>
+            {(range === 0 ? (<p style={{ fontSize: 20 }}> How far would you go? use the slider to set the range</p>) :
+              `${suggestedCountries.country[range / 100].length} Countries at ${range}km`)}
           </Typography>
-          <RangeSlider  sliderHandel={sliderHandel} />
+
+          <RangeSlider
+            max={20000}
+            step={100}
+            sliderHandel={sliderHandel}
+            marks={false}
+            disabled={!result}
+          />
+
         </CardContent>
 
         <Stack sx={{ position: 'relative', marginTop: '20px' }} spacing={2}>
           {(suggestedCountries.country.some(x => x.length) && range > 0) &&
             (
-              suggestedCountries.country[range / 100].map(country_id =>
+              suggestedCountries.country[range / 100].map((country_id, index) =>
 
-                <CountryCard key={`${country_id}card`} country_id={country_id} resultAirports = {resultAirports}/>
+                <CountryCard key={index} country_id={country_id} resultAirports={resultAirports} />
               ))
 
           }

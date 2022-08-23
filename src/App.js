@@ -4,9 +4,9 @@ import './App.css';
 import NavBar from './screens/NavBar';
 import Test from './screens/Test'
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { checkUser, selectAuth } from './app/context/auth/authSlice';
-import { fetchAirportsAsync } from './app/context/locations/airports/airportsSlice'
-import { fetchCountriesAsync } from './app/context/locations/countries/countriesSlice'
+import { checkUser, selectAuth } from './context/auth/authSlice';
+import { fetchAirportsAsync } from './context/locations/airports/airportsSlice'
+import { fetchCountriesAsync } from './context/locations/countries/countriesSlice'
 import FarAway from './screens/FarAway';
 
 

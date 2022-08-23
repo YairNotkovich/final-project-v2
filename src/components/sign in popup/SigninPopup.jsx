@@ -1,7 +1,7 @@
 import * as React from 'react';
 import PopUpDialog from '../PopUpDialog/PopUpDialog';
 import LoginForm from '../sign in form/LogInForm'
-import { hidePopUp } from '../../app/context/auth/authSlice';
+import { hidePopUp } from '../../context/auth/authSlice';
 import { useDispatch } from 'react-redux/es/exports';
 
 const SignInPopUp = () => {
