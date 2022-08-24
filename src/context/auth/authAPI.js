@@ -4,11 +4,12 @@ import {AUTH_URL} from '../../utils/api/urls'
 // const AuthURL = "http://127.0.0.1:8000/auth/authenticate/"
 const PermsURL = "http://127.0.0.1:8000/auth/fetch_user_perms/"
 
-const tempTok = JSON.parse(localStorage.getItem("accessToken"))
-const config = {
+// const tempTok = JSON.parse(sessionStorage.getItem("accessToken"))
+// console.log(tempTok)
+// const config = {
     
-    headers: { Authorization: `Bearer ${tempTok?tempTok:''}` }
-};
+//     headers: { Authorization: `Bearer ${tempTok?tempTok:''}` }
+// };
 
 export const signIn = (user) => {
     // console.log(user);
@@ -25,11 +26,11 @@ export const signIn = (user) => {
 
 
 
-export const fetchUserPerms = () => {
+// export const fetchUserPerms = () => {
     
-    return new Promise((resolve,reject) =>
-    axios.get(PermsURL,config).then((res) => resolve(res))
-    .catch((err) => {
-        reject(err.response.data)
-        })
-    );}
+//     return new Promise((resolve,reject) =>
+//     axios.get(PermsURL,config).then((res) => resolve(res))
+//     .catch((err) => {
+//         reject(err.response.data)
+//         })
+//     );}

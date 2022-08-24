@@ -1,22 +1,30 @@
 import { React, useEffect, useRef } from 'react'
+import { CacheProvider } from '@emotion/react';
+
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
+import { theme } from './theme';
+
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import NavBar from './screens/NavBar';
-import Test from './screens/Test'
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import { checkUser, selectAuth } from './context/auth/authSlice';
+import {checkUser,selectAuth} from './context/auth/authSlice';
 import { fetchAirportsAsync } from './context/locations/airports/airportsSlice'
 import { fetchCountriesAsync } from './context/locations/countries/countriesSlice'
 import FarAway from './screens/FarAway';
+import { createEmotionCache } from './utils/create-emotion-cache';
+import Admin from './pages/admin-page';
+
+const clientSideEmotionCache = createEmotionCache();
 
 
 
-
-
-function App() {
+function App(props) {
   const dispatch = useDispatch()
   const runCheckUser = useRef(false)
   const runFetchData = useRef(true)
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const { accessToken } = useSelector(selectAuth)
 
@@ -52,12 +60,19 @@ function App() {
 
 
   return (
-    <Routes>
-      <Route path='/' element={<NavBar />}>
-        <Route index element={<FarAway />} />
-        <Route path='/test' element={<Test />} />
-      </Route>
-    </Routes>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+
+        <Routes>
+          <Route path='/' element={<NavBar />}>
+            <Route index element={<FarAway />} />
+            <Route path='/admin' element={<Admin />} />
+          </Route>
+        </Routes>
+      </ThemeProvider>
+
+    </CacheProvider>
 
   );
 }

@@ -26,7 +26,7 @@ const FarAwayHero = () => {
   const [result, setResult] = React.useState(false)
   const [range, setRange] = React.useState(0)
   const [resultAirports, setResultAirports] = React.useState([])
-
+const [countriesInRange, setCountriesInRange] = React.useState(0)
 
 
   React.useEffect(() => {
@@ -36,7 +36,7 @@ const FarAwayHero = () => {
     const airports = rangedAirports.filter(
       airport => (parseInt(airport.range) <= MaxRange && parseInt(airport.range) >= minRange) && airport)
     setResultAirports(airports)
-    
+    if (range > 0) setCountriesInRange(suggestedCountries.country[range / 100].length)
     // eslint-disable-next-line
   }, [range])
 
@@ -48,10 +48,7 @@ const FarAwayHero = () => {
 
   const handleChange = (item) => {
 
-    if (parseInt(item.length) === 0) {
-      dispatch(initRangedAirports())
-      dispatch(initSuggested())
-    }
+    
     setResult(false)
 
   }
@@ -59,12 +56,14 @@ const FarAwayHero = () => {
   const handleOnSelect = (item) => {
     dispatch(fetchRangedAirportsAsync(item.id))
     setResult(true)
+    
   }
 
   const handleClear = () => {
     dispatch(initRangedAirports())
     dispatch(initSuggested())
     setResult(false)
+    setRange(0)
 
   }
 
@@ -88,7 +87,7 @@ const FarAwayHero = () => {
             image={require('../assets/freedom.jpeg')}
           > </CardMedia>
           <Typography color='primary' fontWeight={600} fontSize={20} style={{ padding: '2%' }} >
-            Where from?
+           {result ? `From` : `Where from?`}
           </Typography>
           <div >
             <ReactSearchAutocomplete
@@ -109,8 +108,8 @@ const FarAwayHero = () => {
               } />
           </div>
           <Typography color='primary' fontWeight={600} fontSize={20} padding={2}>
-            {(range === 0 ? (<p style={{ fontSize: 20 }}> How far would you go? use the slider to set the range</p>) :
-              `${suggestedCountries.country[range / 100].length} Countries at ${range}km`)}
+            {(range === 0 ?  `How far would you go? use the slider to set the range` :
+              `${countriesInRange} Countries at ${range}km`)}
           </Typography>
 
           <RangeSlider

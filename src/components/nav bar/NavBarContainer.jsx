@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 
 const NavBarContainer = ({children}) => {
   return (
-    <AppBar position="static"sx={{ backgroundColor: 'common.white', }}>
+    <AppBar position="static"sx={{ backgroundColor:'primary.contrastText'}}>
         <Container maxWidth="xl" >
         <Toolbar disableGutters >
         {children}

@@ -39,6 +39,7 @@ export const authSlice = createSlice({
             state.authenticated = false;
             state = initialState
             sessionStorage.removeItem("accessToken")
+            
         },
 
         setAuth: (state, action) => {
@@ -75,7 +76,6 @@ export const authSlice = createSlice({
 export const checkUser = () => (dispatch, getState) => {
     let tempTok = null
     // console.log('check user')
-
 
     try {
         tempTok = getState().auth.accessToken

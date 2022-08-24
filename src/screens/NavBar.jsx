@@ -14,8 +14,11 @@ import NavContainer from '../components/nav bar/NavBarContainer';
 import Logo from '../components/logo/Logo';
 import AvatarMenu from '../components/nav bar/AvatarMenu';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectAuth, showPopUp } from '../context/auth/authSlice'
+import { selectUser } from '../context/user/userSlice';
+import { showPopUp, selectAuth } from '../context/auth/authSlice';
 import SignInPopUp from '../components/sign in popup/SigninPopup';
+import { getAvatarAndRole } from '../context/user/userSlice';
+import { toBePartiallyChecked } from '@testing-library/jest-dom/dist/matchers';
 
 
 
@@ -27,13 +30,33 @@ const anonPages = [
   { name: 'TEST', to: '/test', icon: '' },
   { name: 'About', to: 'test', icon: '' }];
 
+const customerPages = [
+  { name: 'Far away', to: '/', icon: '' },
+  { name: 'Places', to: '/test', icon: '' },
+  { name: 'Find a flight', to: '/test', icon: '' },
+  { name: 'Admin', to: '/test', icon: '' },
+  { name: 'About', to: 'test', icon: '' }];
 
+const airlinePages = [
+  { name: 'Far away', to: '/', icon: '' },
+  { name: 'Places', to: '/test', icon: '' },
+  { name: 'Find a flight', to: '/test', icon: '' },
+  { name: 'Admin', to: '/test', icon: '' },
+  { name: 'About', to: 'test', icon: '' }];
+
+const adminPages = [
+  { name: 'Far away', to: '/', icon: '' },
+  { name: 'Places', to: '/test', icon: '' },
+  { name: 'Find a flight', to: '/test', icon: '' },
+  { name: 'Admin', to: '/admin', icon: '' },
+  { name: 'About', to: 'test', icon: '' }];
 
 const EscAppBar = () => {
 
   const dispatch = useDispatch()
 
-  const { authenticated, PopupState, role } = useSelector(selectAuth)
+  const { avatar, role, username } = useSelector(selectUser)
+  const { PopupState, authenticated } = useSelector(selectAuth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [pages, setPages] = React.useState([])
@@ -54,17 +77,37 @@ const EscAppBar = () => {
     setAnchorElUser(null);
   };
 
-  const defPages = ()=>{
-    if (typeof (role) == "undefined") {
-      setPages(anonPages)
-    }
-    setPages(anonPages)
+  const handleSignOut = () => {
+
   }
- React.useEffect(() =>  defPages()
- 
-     // eslint-disable-next-line
- , [authenticated])
- 
+
+  const defPages = () => {
+    if (role === 0) {
+      return anonPages
+    }
+    if (role === 2) {
+      return adminPages
+    }
+    if (role === 3) {
+      return adminPages
+    }
+    if (role === 1) {
+      navigate('/admin')
+      return adminPages
+    }
+  }
+
+  React.useEffect(() => {
+    dispatch(getAvatarAndRole());
+  }, [authenticated])
+
+  React.useEffect(() => {
+    setPages(defPages())
+  } // eslint-disable-next-line
+    , [role])
+
+
+
   return (
     <>
       <NavContainer  >
@@ -136,9 +179,10 @@ const EscAppBar = () => {
           {authenticated ?
             (<Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={username.toUpperCase()} src={avatar} />
               </IconButton>
             </Tooltip>) :
+
             <Button sx={{ my: 2, color: 'primary', display: 'block' }} onClick={() => dispatch(showPopUp())}>Sign In</Button>}
 
           <AvatarMenu

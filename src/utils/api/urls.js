@@ -14,7 +14,7 @@ export const AUTH_URL = {
 
 
 export const ADMIN_URL = {
-    LOGIN:"auth/authenticate/",
+    ALL_USERS:"system/user-list/",
  //   USER_PERMS:"auth/fetch_user_perms/"
 }
 

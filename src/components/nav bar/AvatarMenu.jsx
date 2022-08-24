@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useDispatch } from 'react-redux';
-
+import { initiateUserAsync } from '../../context/user/userSlice';
 
 
 
@@ -12,8 +12,11 @@ import { useDispatch } from 'react-redux';
 const AvatarMenu = (props) => {
   const dispatch = useDispatch()
   const {anchorElUser,handleCloseUserMenu} = {...props}
-  
-  const settings = [{name:'Profile',action:()=> null}, {name:'Account',action:()=> null}, {name:'Dashboard',action:()=> null}, {name:'Logout',action:()=> dispatch(logOut())}];
+  const logoutHandler = ()=>{
+    dispatch(logOut());
+    dispatch(initiateUserAsync())
+  }
+  const settings = [{name:'Account',action:()=> null}, {name:'Logout',action:logoutHandler}];
   return (
     <>
          <Menu

@@ -104,7 +104,7 @@ const RangeSlider = (props) => {
         max={max}
         step={step}
         onChange={handelChange}
-        onChangeCommitted={handleClick}
+        onClick={handleClick}
         aria-label="Range"
         defaultValue={0}
         valueLabelFormat={valueLabelFormat}
