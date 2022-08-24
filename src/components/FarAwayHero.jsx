@@ -78,7 +78,7 @@ const [countriesInRange, setCountriesInRange] = React.useState(0)
       <Card style={{ width: 800, minHeight: 800, marginLeft: '5%', padding: '1%' }}
       >
         <CardContent>
-          <Typography color='primary' fontWeight={600} fontSize={24} style={{ padding: '2%' }} >So You want to go...
+          <Typography color='primary' fontWeight={600} fontSize={24} style={{ padding: '2%' }} >Far far away...
 
           </Typography>
           <CardMedia

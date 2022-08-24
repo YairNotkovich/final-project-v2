@@ -12,12 +12,16 @@ import { useDispatch, useSelector } from 'react-redux/es/exports';
 import {checkUser,selectAuth} from './context/auth/authSlice';
 import { fetchAirportsAsync } from './context/locations/airports/airportsSlice'
 import { fetchCountriesAsync } from './context/locations/countries/countriesSlice'
-import FarAway from './screens/FarAway';
+import FarAway from './screens/faraway';
 import { createEmotionCache } from './utils/create-emotion-cache';
 import Admin from './pages/admin-page';
+import FindFlight from './pages/find-flight';
+import Places from './pages/places';
+import SystemAdmin from './screens/system-admin';
+
+
 
 const clientSideEmotionCache = createEmotionCache();
-
 
 
 function App(props) {
@@ -68,6 +72,10 @@ function App(props) {
           <Route path='/' element={<NavBar />}>
             <Route index element={<FarAway />} />
             <Route path='/admin' element={<Admin />} />
+            <Route path='/places' element={<Places />} />
+            <Route path='/flights' element={<FindFlight />} />
+            <Route path='/account' element={<SystemAdmin />} />
+
           </Route>
         </Routes>
       </ThemeProvider>

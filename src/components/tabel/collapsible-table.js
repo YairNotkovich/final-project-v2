@@ -55,14 +55,7 @@ CollapsibleTable.defaultProps = {
         data: { a: 'a', b: 'b', c: 'c' },
         children: <div>fgdfg</div>
     },
-    {
-        data: { a: 'a', b: 'b', c: 'c' },
-        children: <div>fgdfg</div>
-    },
-    {
-        data: { a: 'a', b: 'b', c: 'c' },
-        children: <div>fgdfg</div>
-    }
+  
         ,]
 }
 

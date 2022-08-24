@@ -9,47 +9,39 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Outlet, Link, useNavigate } from 'react-router-dom'
 import Typography from "@mui/material/Typography";
-import NavContainer from '../components/nav bar/NavBarContainer';
+import NavContainer from '../components/nav/NavBarContainer';
 // import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '../components/logo/Logo';
-import AvatarMenu from '../components/nav bar/AvatarMenu';
+import AvatarMenu from '../components/nav/AvatarMenu';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../context/user/userSlice';
 import { showPopUp, selectAuth } from '../context/auth/authSlice';
 import SignInPopUp from '../components/sign in popup/SigninPopup';
 import { getAvatarAndRole } from '../context/user/userSlice';
-import { toBePartiallyChecked } from '@testing-library/jest-dom/dist/matchers';
-
-
 
 
 const anonPages = [
   { name: 'Far away', to: '/', icon: '' },
-  { name: 'Places', to: '/test', icon: '' },
-  { name: 'Find a flight', to: '/test', icon: '' },
-  { name: 'TEST', to: '/test', icon: '' },
-  { name: 'About', to: 'test', icon: '' }];
+  { name: 'Places', to: '/Places', icon: '' },
+  { name: 'Find a flight', to: '/flights', icon: '' },
+  // { name: 'About', to: 'test', icon: '' }
+];
 
 const customerPages = [
-  { name: 'Far away', to: '/', icon: '' },
-  { name: 'Places', to: '/test', icon: '' },
-  { name: 'Find a flight', to: '/test', icon: '' },
-  { name: 'Admin', to: '/test', icon: '' },
-  { name: 'About', to: 'test', icon: '' }];
+  ...anonPages,
+  { name: 'Account', to: '/account', icon: '' },
+  //noah.smith@example.com
+];
 
 const airlinePages = [
-  { name: 'Far away', to: '/', icon: '' },
-  { name: 'Places', to: '/test', icon: '' },
-  { name: 'Find a flight', to: '/test', icon: '' },
-  { name: 'Admin', to: '/test', icon: '' },
-  { name: 'About', to: 'test', icon: '' }];
+  ...anonPages,
+  { name: 'Account', to: '/account', icon: '' },
+];
 
 const adminPages = [
-  { name: 'Far away', to: '/', icon: '' },
-  { name: 'Places', to: '/test', icon: '' },
-  { name: 'Find a flight', to: '/test', icon: '' },
+  ...anonPages,
   { name: 'Admin', to: '/admin', icon: '' },
-  { name: 'About', to: 'test', icon: '' }];
+];
 
 const EscAppBar = () => {
 
@@ -77,22 +69,18 @@ const EscAppBar = () => {
     setAnchorElUser(null);
   };
 
-  const handleSignOut = () => {
-
-  }
 
   const defPages = () => {
     if (role === 0) {
       return anonPages
     }
     if (role === 2) {
-      return adminPages
+      return customerPages
     }
     if (role === 3) {
-      return adminPages
+      return airlinePages
     }
     if (role === 1) {
-      navigate('/admin')
       return adminPages
     }
   }

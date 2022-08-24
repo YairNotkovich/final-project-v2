@@ -2,7 +2,6 @@ import * as React from 'react';
 import CollapsibleTable from '../components/tabel/collapsible-table';
 import { fetchUsersAsync } from '../context/admin/adminSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuth } from '../context/auth/authSlice'
 import { selectUser } from '../context/user/userSlice'
 import { selectAdmin } from '../context/admin/adminSlice';
 import { AccountProfile } from '../components/account/account-profile';
@@ -26,12 +25,13 @@ const Users = () => {
   }
 
   const refresh = React.useRef(true)
+
   React.useEffect(() => {
     if (refresh.current === true && role === 1) {
       dispatch(fetchUsersAsync())
     }
     refresh.current = false
-  }, [])
+  }, [role])
   const rows = rowsData.map(row => newRow(row, <AccountProfile />))
 
   return (
