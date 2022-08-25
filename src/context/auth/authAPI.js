@@ -23,7 +23,14 @@ export const signIn = (user) => {
 
 
 
-
+export const register = (user) => {
+    console.log(user);
+    return new Promise((resolve,reject) =>{
+    axios.post(AUTH_URL.REGISTER, user).then((res) => resolve(res))
+    .catch((err) => {
+        reject(err.response.data)
+        })})
+;}
 
 
 // export const fetchUserPerms = () => {

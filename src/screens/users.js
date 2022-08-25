@@ -5,7 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../context/user/userSlice'
 import { selectAdmin } from '../context/admin/adminSlice';
 import { AccountProfile } from '../components/account/account-profile';
-import { useNavigate } from 'react-router-dom';
+import {Box,TextField} from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+
+
+
 const headers = [
   'id', 'username', 'email', 'first_name', 'last_name', 'last_login'
 ]
@@ -13,9 +20,40 @@ const headers = [
 const tempChild = (
   <AccountProfile />
 )
+
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.h3,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.primary.main,
+}));
+
+const Head = (props) => {
+  const { name, search, edit } = props
+
+
+  
+  return (
+    <Box sx={{ flexGrow: 1, margin: 2 }}>
+      <Grid container spacing={3}>
+        <Grid item xs="auto">
+          <Item>{name}</Item>
+        </Grid>
+        <Grid item xs>
+          <Item><TextField></TextField></Item>
+        </Grid>
+        <Grid item xs={2}>
+          <Item><AddOutlinedIcon/></Item>
+        </Grid>
+      </Grid>
+    </Box>
+  )
+}
+
 const Users = () => {
 
-  const navigate = useNavigate()
 
   const dispatch = useDispatch()
   const rowsData = useSelector(selectAdmin).userList
@@ -24,27 +62,39 @@ const Users = () => {
     return { data: data, children: children }
   }
 
-  const refresh = React.useRef(true)
+  const refresh = React.useRef(false)
 
   React.useEffect(() => {
     if (refresh.current === true && role === 1) {
       dispatch(fetchUsersAsync())
     }
-    refresh.current = false
+    refresh.current = true
   }, [role])
+
+
   const rows = rowsData.map(row => newRow(row, <AccountProfile />))
+
+  const pageControl = () => {
+
+  }
+
 
   return (
     <>
+      <Head
+        name='Users'
+      ></Head>
       {role === 1 ?
-        <CollapsibleTable columns={headers} rows={rows} />
+        <CollapsibleTable
+          columns={headers}
+          rows={rows} />
         :
-        <div className="container">
+        <Box>
           <h2>404</h2>
           <h3>Oops, nothing here...</h3>
           <p>Please Check the URL</p>
           <p>HAHA... Stop it.</p>
-        </div>
+        </Box>
       }
     </>
   )

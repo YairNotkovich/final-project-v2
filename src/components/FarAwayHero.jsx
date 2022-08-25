@@ -13,7 +13,7 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import { useSelector, useDispatch } from 'react-redux/es/exports'
 import { selectAirports } from '../context/locations/airports/airportsSlice'
 import { fetchRangedAirportsAsync, selectRangedAirports, initRangedAirports } from '../context/locations/airports/airportsSlice'
-import {  selectSuggested, initSuggested } from '../context/locations/countries/countriesSlice'
+import { selectSuggested, initSuggested } from '../context/locations/countries/countriesSlice'
 import CountryCard from './coutry-card/CountryCard';
 
 
@@ -26,7 +26,7 @@ const FarAwayHero = () => {
   const [result, setResult] = React.useState(false)
   const [range, setRange] = React.useState(0)
   const [resultAirports, setResultAirports] = React.useState([])
-const [countriesInRange, setCountriesInRange] = React.useState(0)
+  const [countriesInRange, setCountriesInRange] = React.useState(0)
 
 
   React.useEffect(() => {
@@ -48,7 +48,7 @@ const [countriesInRange, setCountriesInRange] = React.useState(0)
 
   const handleChange = (item) => {
 
-    
+
     setResult(false)
 
   }
@@ -56,7 +56,7 @@ const [countriesInRange, setCountriesInRange] = React.useState(0)
   const handleOnSelect = (item) => {
     dispatch(fetchRangedAirportsAsync(item.id))
     setResult(true)
-    
+
   }
 
   const handleClear = () => {
@@ -87,7 +87,7 @@ const [countriesInRange, setCountriesInRange] = React.useState(0)
             image={require('../assets/freedom.jpeg')}
           > </CardMedia>
           <Typography color='primary' fontWeight={600} fontSize={20} style={{ padding: '2%' }} >
-           {result ? `From` : `Where from?`}
+            {result ? `From` : `Where from?`}
           </Typography>
           <div >
             <ReactSearchAutocomplete
@@ -108,7 +108,7 @@ const [countriesInRange, setCountriesInRange] = React.useState(0)
               } />
           </div>
           <Typography color='primary' fontWeight={600} fontSize={20} padding={2}>
-            {(range === 0 ?  `How far would you go? use the slider to set the range` :
+            {(range === 0 ? `How far would you go? use the slider to set the range` :
               `${countriesInRange} Countries at ${range}km`)}
           </Typography>
 

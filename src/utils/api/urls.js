@@ -8,8 +8,8 @@ export const LOCATION_URL = {
 
 export const AUTH_URL = {
     LOGIN:"auth/authenticate/",
+    REGISTER:"auth/signup/",
     REFRESH:'auth/authenticate/refresh/',
-    USER_PERMS:"auth/fetch_user_perms/"
 }
 
 

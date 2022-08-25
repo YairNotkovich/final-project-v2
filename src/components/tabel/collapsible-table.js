@@ -16,12 +16,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
 
-const Row = ({ data, columns, children }) => {
+const Row = ({key, data, columns, children }) => {
     const [open, setOpen] = React.useState(false);
 
     return (
         <>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+            <TableRow  key={key} sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell>
                     <IconButton
                         aria-label="expand row"
@@ -31,7 +31,7 @@ const Row = ({ data, columns, children }) => {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                {columns.map((column) => <TableCell align="right">{data[column]}</TableCell>)}
+                {columns.map((column,index) => <TableCell key={index} align="right">{data[column]}</TableCell>)}
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -45,14 +45,16 @@ const Row = ({ data, columns, children }) => {
         </>
     )
 }
-const a = 'a'
-const b = 'b'
-const c = 'c'
+
+// filler data for empty generation
+const coll1 = 'coll1'
+const coll2 = 'coll2'
+const coll3 = 'coll3'
 CollapsibleTable.defaultProps = {
 
-    columns: [a, b, c],
+    columns: [coll1, coll2, coll3],
     rows: [{
-        data: { a: 'a', b: 'b', c: 'c' },
+        data: { coll1: 'a', coll2: 'b', coll3: 'c' },
         children: <div>fgdfg</div>
     },
   
@@ -75,10 +77,10 @@ export default function CollapsibleTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => {
+                    {rows.map((row,index) => {
                         let data = row.data;
                         let children = row.children;
-                        return Row({ data, columns, children })
+                        return Row({ key:{index},data, columns, children })
                     })}
                 </TableBody>
             </Table>

@@ -15,9 +15,10 @@ import Logo from '../components/logo/Logo';
 import AvatarMenu from '../components/nav/AvatarMenu';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../context/user/userSlice';
-import { showPopUp, selectAuth } from '../context/auth/authSlice';
+import { showPopUp, selectAuth,LoginAsync } from '../context/auth/authSlice';
 import SignInPopUp from '../components/sign in popup/SigninPopup';
 import { getAvatarAndRole } from '../context/user/userSlice';
+import { NavLink } from 'react-router-dom';
 
 
 const anonPages = [
@@ -48,7 +49,7 @@ const EscAppBar = () => {
   const dispatch = useDispatch()
 
   const { avatar, role, username } = useSelector(selectUser)
-  const { PopupState, authenticated } = useSelector(selectAuth)
+  const { PopupState, authenticated ,signInRedirect} = useSelector(selectAuth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [pages, setPages] = React.useState([])
@@ -94,7 +95,11 @@ const EscAppBar = () => {
   } // eslint-disable-next-line
     , [role])
 
-
+    React.useEffect(()=>{
+      console.log(signInRedirect)
+      if(signInRedirect){
+          dispatch(LoginAsync())}
+  },[PopupState])
 
   return (
     <>
@@ -136,7 +141,7 @@ const EscAppBar = () => {
             }}
           >
             {pages.map((page) => (
-              <MenuItem
+              <MenuItem 
                 key={page.name} onClick={() => { navigate(page.to); handleCloseNavMenu() }} >
 
                 <Typography color='primary' textAlign="center">{page.name}</Typography>

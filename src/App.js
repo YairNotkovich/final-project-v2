@@ -1,15 +1,13 @@
 import { React, useEffect, useRef } from 'react'
 import { CacheProvider } from '@emotion/react';
-
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { theme } from './theme';
-
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import NavBar from './screens/NavBar';
+import NavBar from './screens/navigation';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
-import {checkUser,selectAuth} from './context/auth/authSlice';
+import { checkUser, selectAuth } from './context/auth/authSlice';
 import { fetchAirportsAsync } from './context/locations/airports/airportsSlice'
 import { fetchCountriesAsync } from './context/locations/countries/countriesSlice'
 import FarAway from './screens/faraway';
@@ -18,7 +16,6 @@ import Admin from './pages/admin-page';
 import FindFlight from './pages/find-flight';
 import Places from './pages/places';
 import SystemAdmin from './screens/system-admin';
-
 
 
 const clientSideEmotionCache = createEmotionCache();
@@ -76,6 +73,16 @@ function App(props) {
             <Route path='/flights' element={<FindFlight />} />
             <Route path='/account' element={<SystemAdmin />} />
 
+
+
+            <Route
+              path="*"
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>There's nothing here!</p>
+                </main>
+              }
+            />
           </Route>
         </Routes>
       </ThemeProvider>

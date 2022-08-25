@@ -1,24 +1,43 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { signIn} from './authAPI';
+import { signIn, register } from './authAPI';
 
 
 const initialState = {
     email: "",
     password: "",
+    username: "",
     accessToken: "",
     PopupState: false,
     authenticated: false,
+    registered: false,
 };
 
 export const LoginAsync = createAsyncThunk(
     "user/signIn",
-
-    async (user) => {
+    async (arg, { getState }) => {
         const response = await signIn({
-            email: user.email,
-            password: user.password,
+
+            email: getState().auth.email,
+            password: getState().auth.password,
         });
+
         return response.data.access;
+    }
+);
+
+
+export const registerAsync = createAsyncThunk(
+    "user/register",
+
+    async (arg, { getState }) => {
+
+        const response = await register({
+            email: getState().auth.email,
+            username: getState().auth.username,
+            password: getState().auth.password,
+        });
+
+        return response.data;
     }
 );
 
@@ -36,9 +55,17 @@ export const authSlice = createSlice({
             state.PopupState = true
         },
         logOut: (state) => {
-            state.authenticated = false;
-            state = initialState
             sessionStorage.removeItem("accessToken")
+            state.authenticated = false;
+            state = { ...initialState }
+
+        },
+        setCredentials: (state, action) => {
+            
+            const{email,userName,password} = action.payload;
+            state.email = email;
+            state.password = password;
+            state.username = userName;
             
         },
 
@@ -49,12 +76,7 @@ export const authSlice = createSlice({
             // console.log('setAuth', state.authenticated)
             // }
         },
-        setCredentials: (state, action) => {
-            // if (action.payload) {
-            state.email = action.payload.email
-            state.password = action.payload.password
-            // }
-        }
+        
 
 
     },
@@ -70,7 +92,12 @@ export const authSlice = createSlice({
                 setAuth(action.payload)
                 // fetchUserPermsAsync(action.payload.access)
             })
-            
+            .addCase(registerAsync.fulfilled, (state) => {
+                console.log('fulldfas')
+                state.registered = true
+                // fetchUserPermsAsync(action.payload.access)
+            })
+
     }
 })
 export const checkUser = () => (dispatch, getState) => {
@@ -83,7 +110,7 @@ export const checkUser = () => (dispatch, getState) => {
             // console.log('was signed in')
             sessionStorage.setItem("accessToken", tempTok)
             // console.log('retrieved token')
-        } 
+        }
         else {
             try {
                 tempTok = sessionStorage.getItem("accessToken")
@@ -92,7 +119,7 @@ export const checkUser = () => (dispatch, getState) => {
                     // dispatch(fetchUserPermsAsync(tempTok))
                     // console.log('was not logged in')
                 }
-                else{
+                else {
                 }
                 // console.log('no token in storage')
 
@@ -110,6 +137,6 @@ export const checkUser = () => (dispatch, getState) => {
 // export const user = (state)=> state.user.user;
 export const selectAuth = (state) => state.auth
 export const selectPopUpstate = (state) => state.auth.PopupState
-export const { logOut, setAuth, togglePopUp, hidePopUp, showPopUp } = authSlice.actions;
+export const { logOut, setAuth, togglePopUp, hidePopUp, showPopUp, setCredentials } = authSlice.actions;
 
 export default authSlice.reducer

@@ -1,3 +1,4 @@
+import { optionGroupUnstyledClasses } from '@mui/base';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getUsers } from './adminApi';
 
@@ -9,7 +10,7 @@ export const initialUser = {
     lastName: 'Last Name',
     email: 'email',
     role: 'role',
-    lastLogin:'last logged in',
+    lastLogin: 'last logged in',
     active: 'active',
 }
 
@@ -26,7 +27,7 @@ const initialAirport = {
     id: 0,
     name: 'airport name',
     iata: 'code',
-    city:'city',
+    city: 'city',
     country: 'country',
     active: false,
 }
@@ -38,8 +39,8 @@ const initialCountry = {
 }
 
 const initialRole = {
-    id:100,
-    name:'name of role'
+    id: 100,
+    name: 'name of role'
 }
 
 const initialState = {
@@ -56,10 +57,18 @@ const initialState = {
 
 
 
-export const fetchUsersAsync =createAsyncThunk( 
+
+export const fetchUsersAsync = createAsyncThunk(
     `users/all`,
-    async () => {
-        const response = await getUsers()
+    async (arg, { getState }) => {
+        const state = getState();
+        const sessionToken = JSON.parse(sessionStorage.getItem("accessToken"));
+        const accessToken = sessionToken ? sessionToken : state.auth.accessToken;
+
+        const config = {
+            headers: { Authorization: `Bearer ${accessToken ? accessToken : ''}` }
+        };
+        const response = await getUsers(config)
         return response.data
     }
 )
@@ -71,21 +80,20 @@ export const adminSlice = createSlice({
         setUser: (state, action) => {
             state.user = action.payload;
         },
-      
+
 
     },
     extraReducers: (builder) => {
         builder
 
-            .addCase(fetchUsersAsync.fulfilled, (state,action) => {
+            .addCase(fetchUsersAsync.fulfilled, (state, action) => {
                 state.userList = action.payload
-                console.log(action.payload)
             })
-         
+
     }
 })
 
-export const {  } = adminSlice.actions;
+export const { } = adminSlice.actions;
 export const selectAdmin = (state) => state.admin;
 
 export default adminSlice.reducer

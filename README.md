@@ -7,7 +7,7 @@
 [v] log in
 [v] log out
 [v] avatar
-[] register
+[v] register
 [] admin page
 [] airline page
 [] customer
@@ -18,7 +18,9 @@
 [] refresh token
 [] generalize components
 [] make read me
-[] make documentation
+[] make documentation -pyDoc
 [] organize components
+[] REGISTER REDIRECT
+[] theme
 [] github
 [] docker
