@@ -1,5 +1,4 @@
-# TODO
-
+# TODO must  
 
 [v] navigation menu
 [v] range chart
@@ -8,6 +7,7 @@
 [v] log out
 [v] avatar
 [v] register
+[] upload image
 [] admin page
 [] airline page
 [] customer
@@ -15,12 +15,18 @@
 [] search flight
 [] places
 [] favorites
-[] refresh token
-[] generalize components
+[] handle reject
+[] handle response
+
+# finalizing must  
 [] make read me
 [] make documentation -pyDoc
-[] organize components
-[] REGISTER REDIRECT
-[] theme
 [] github
 [] docker
+
+# optimization  
+[V] refresh token
+[] generalize components
+[] organize components
+[] theme
+

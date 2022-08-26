@@ -62,13 +62,13 @@ export const fetchUsersAsync = createAsyncThunk(
     `users/all`,
     async (arg, { getState }) => {
         const state = getState();
-        const sessionToken = JSON.parse(sessionStorage.getItem("accessToken"));
+        const sessionToken = sessionStorage.getItem("accessToken");
         const accessToken = sessionToken ? sessionToken : state.auth.accessToken;
 
         const config = {
-            headers: { Authorization: `Bearer ${accessToken ? accessToken : ''}` }
+            headers: { Authorization: `Bearer `+`${accessToken}` }
         };
-        const response = await getUsers(config)
+        const response = await getUsers()
         return response.data
     }
 )

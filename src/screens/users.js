@@ -58,9 +58,12 @@ const Users = () => {
   const dispatch = useDispatch()
   const rowsData = useSelector(selectAdmin).userList
   const { role } = useSelector(selectUser)
+
   const newRow = (data, children) => {
     return { data: data, children: children }
   }
+
+  let rows = []
 
   const refresh = React.useRef(false)
 
@@ -71,8 +74,8 @@ const Users = () => {
     refresh.current = true
   }, [role])
 
-
-  const rows = rowsData.map(row => newRow(row, <AccountProfile />))
+  if(rowsData !==[])
+  {rows = rowsData.map(row => newRow(row, <AccountProfile />))}
 
   const pageControl = () => {
 

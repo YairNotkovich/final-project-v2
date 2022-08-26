@@ -17,8 +17,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../context/user/userSlice';
 import { showPopUp, selectAuth,LoginAsync } from '../context/auth/authSlice';
 import SignInPopUp from '../components/sign in popup/SigninPopup';
-import { getAvatarAndRole } from '../context/user/userSlice';
+import { getUserAsync } from '../context/user/userSlice';
 import { NavLink } from 'react-router-dom';
+
 
 
 const anonPages = [
@@ -41,14 +42,19 @@ const airlinePages = [
 
 const adminPages = [
   ...anonPages,
+  { name: 'Account', to: '/account', icon: '' },
   { name: 'Admin', to: '/admin', icon: '' },
 ];
 
+
 const EscAppBar = () => {
+
+
+  
 
   const dispatch = useDispatch()
 
-  const { avatar, role, username } = useSelector(selectUser)
+  const { avatar, role, username, airline_name } = useSelector(selectUser)
   const { PopupState, authenticated ,signInRedirect} = useSelector(selectAuth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -79,6 +85,8 @@ const EscAppBar = () => {
       return customerPages
     }
     if (role === 3) {
+      const airline={name: `${airline_name}`, to: '/airline', icon: ''}
+      airlinePages.push(airline)
       return airlinePages
     }
     if (role === 1) {
@@ -87,8 +95,10 @@ const EscAppBar = () => {
   }
 
   React.useEffect(() => {
-    dispatch(getAvatarAndRole());
-  }, [authenticated])
+    if (authenticated){
+    dispatch(getUserAsync());
+    console.log(avatar)}
+  }, [authenticated,avatar])
 
   React.useEffect(() => {
     setPages(defPages())
@@ -96,7 +106,6 @@ const EscAppBar = () => {
     , [role])
 
     React.useEffect(()=>{
-      console.log(signInRedirect)
       if(signInRedirect){
           dispatch(LoginAsync())}
   },[PopupState])

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { signIn, register } from './authAPI';
+import jwtDecode from 'jwt-decode';
 
 
 const initialState = {
@@ -16,18 +17,17 @@ export const LoginAsync = createAsyncThunk(
     "user/signIn",
     async (arg, { getState }) => {
         const response = await signIn({
-
             email: getState().auth.email,
             password: getState().auth.password,
         });
 
-        return response.data.access;
+        return response.data;
     }
 );
 
 
 export const registerAsync = createAsyncThunk(
-    "user/register",
+    "auth/register",
 
     async (arg, { getState }) => {
 
@@ -55,28 +55,27 @@ export const authSlice = createSlice({
             state.PopupState = true
         },
         logOut: (state) => {
-            sessionStorage.removeItem("accessToken")
+            sessionStorage.removeItem("access_token")
+            sessionStorage.removeItem("refresh_token")
             state.authenticated = false;
             state = { ...initialState }
 
         },
         setCredentials: (state, action) => {
-            
-            const{email,userName,password} = action.payload;
+            const { email, userName, password } = action.payload;
+
             state.email = email;
             state.password = password;
             state.username = userName;
-            
+
         },
 
         setAuth: (state, action) => {
-            // if (action.payload) {
+
             state.accessToken = action.payload;
             state.authenticated = true
-            // console.log('setAuth', state.authenticated)
-            // }
+            state.email = jwtDecode(action.payload).email
         },
-        
 
 
     },
@@ -86,51 +85,27 @@ export const authSlice = createSlice({
                 // console.log(action)
             })
             .addCase(LoginAsync.fulfilled, (state, action) => {
-                sessionStorage.setItem("accessToken", JSON.stringify(action.payload));
+                sessionStorage.setItem("access_token", action.payload.access);
+                sessionStorage.setItem("refresh_token", action.payload.refresh);
+
                 state.PopupState = false
                 state.authenticated = true
-                setAuth(action.payload)
+                state.accessToken = action.payload.access
                 // fetchUserPermsAsync(action.payload.access)
             })
             .addCase(registerAsync.fulfilled, (state) => {
-                console.log('fulldfas')
                 state.registered = true
                 // fetchUserPermsAsync(action.payload.access)
             })
 
     }
 })
-export const checkUser = () => (dispatch, getState) => {
+export const checkUser = () => (dispatch) => {
     let tempTok = null
-    // console.log('check user')
 
-    try {
-        tempTok = getState().auth.accessToken
-        if (tempTok) {
-            // console.log('was signed in')
-            sessionStorage.setItem("accessToken", tempTok)
-            // console.log('retrieved token')
-        }
-        else {
-            try {
-                tempTok = sessionStorage.getItem("accessToken")
-                if (tempTok) {
-                    dispatch(setAuth(tempTok))
-                    // dispatch(fetchUserPermsAsync(tempTok))
-                    // console.log('was not logged in')
-                }
-                else {
-                }
-                // console.log('no token in storage')
-
-            }
-            catch (err) {
-                console.log(err)
-            }
-        }
-    }
-    catch (err) {
-        console.log(err)
+    tempTok = sessionStorage.getItem("access_token")
+    if (tempTok) {
+        dispatch(setAuth(tempTok))
     }
 }
 

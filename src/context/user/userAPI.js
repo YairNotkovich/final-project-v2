@@ -1,35 +1,25 @@
 
-import axios from "../../utils/api/generalAxios";
-import {AUTH_URL} from '../../utils/api/urls'
-// const AuthURL = "http://127.0.0.1:8000/auth/authenticate/"
-const PermsURL = "http://127.0.0.1:8000/auth/fetch_user_perms/"
+import  {privateAxios} from '../../utils/api/customAxios'
+import {USER_URL} from '../../utils/api/urls'
 
-const tempTok = JSON.parse(localStorage.getItem("accessToken"))
-const config = {
-    
-    headers: { Authorization: `Bearer ${tempTok?tempTok:''}` }
-};
+const axios = privateAxios
 
-export const signIn = (user) => {
-    // console.log(user);
+export const getUserProfile = () => {
     return new Promise((resolve,reject) =>{
-    axios.post(AUTH_URL.LOGIN, user).then((res) => resolve(res))
+    axios.get(USER_URL.GET_PROFILE).then((res) => resolve(res))
     .catch((err) => {
         reject(err.response.data)
         })})
 ;}
 
 
+export const uploadPicture = (form) => {
 
-
-
-
-
-export const fetchUserPerms = () => {
-    
-    return new Promise((resolve,reject) =>
-    axios.get(PermsURL,config).then((res) => resolve(res))
+    return new Promise((resolve,reject) =>{
+    axios.post(USER_URL.UPLOAD_IMAGE, form).then((res) => resolve(res))
     .catch((err) => {
         reject(err.response.data)
-        })
-    );}
+        })})
+;}
+
+

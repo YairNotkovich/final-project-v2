@@ -1,3 +1,7 @@
+import * as React from 'react';
+import { uploadPictureAsync } from '../../context/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { selectUser } from '../../context/user/userSlice';
 import {
   Avatar,
   Box,
@@ -6,20 +10,37 @@ import {
   CardActions,
   CardContent,
   Divider,
-  Typography
+  Typography,
+  Input,
 } from '@mui/material';
 
-const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
-};
 
-export const AccountProfile = (props) => (
-  <Card {...props}>
+
+export const AccountProfile = (props) => {
+
+  const dispatch = useDispatch()
+  const [selectedFile, setSelectedFile] = React.useState(null)
+  const user = useSelector(selectUser)
+
+  const uploadHandler = (e) => {
+    setSelectedFile(e.target.files[0])
+  }
+
+  React.useEffect(() => {
+
+    if (selectedFile !== null)
+      dispatch(uploadPictureAsync(selectedFile))
+  }, [selectedFile])
+  const {
+    avatar,
+    username,
+    first_name,
+    last_name,
+    email,
+    airline_name,
+  } = user
+
+  return (<Card {...props}>
     <CardContent>
       <Box
         sx={{
@@ -29,7 +50,7 @@ export const AccountProfile = (props) => (
         }}
       >
         <Avatar
-          src={user.avatar}
+          src={avatar}
           sx={{
             height: 64,
             mb: 2,
@@ -41,31 +62,50 @@ export const AccountProfile = (props) => (
           gutterBottom
           variant="h5"
         >
-          {user.name}
+          {username}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-          {`${user.city} ${user.country}`}
+          {email}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-          {user.timezone}
+          {`${first_name} ${last_name}`}
+        </Typography>
+        <Typography
+          color="textSecondary"
+          variant="body2"
+        >
+          {airline_name &&`${airline_name}`}
         </Typography>
       </Box>
     </CardContent>
     <Divider />
     <CardActions>
       <Button
+        component='label'
         color="primary"
         fullWidth
         variant="text"
+        type='file'
       >
-        Upload picture
-      </Button>
+        {avatar ? 'change photo' : 'Upload picture'}
+        <input onChange={uploadHandler} hidden accept="image/*" multiple type="file" />      </Button>
     </CardActions>
-  </Card>
-);
+  </Card>)
+};
+
+AccountProfile.defaultProps = {
+  user: {
+    avatar: '/static/images/avatars/avatar_6.png',
+    city: 'Los Angeles',
+    country: 'USA',
+    jobTitle: 'Senior Developer',
+    name: 'Katarina Smith',
+    timezone: 'GTM-7'
+  }
+}

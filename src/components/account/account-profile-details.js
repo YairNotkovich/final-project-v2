@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import { selectUser } from '../../context/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+
+
 import {
   Box,
   Button,
@@ -26,13 +30,13 @@ const states = [
 ];
 
 export const AccountProfileDetails = (props) => {
+  const user = useSelector(selectUser)
   const [values, setValues] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
+    firstName: '',
+    lastName: '',
+    email: '',
     phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    address: { state: '', city: '', street: '', postcode: '' },
   });
 
   const handleChange = (event) => {
@@ -42,6 +46,14 @@ export const AccountProfileDetails = (props) => {
     });
   };
 
+  const {
+    first_name,
+    last_name,
+    email,
+    Phone_No,
+    address,
+    
+  } = user
   return (
     <form
       autoComplete="off"
@@ -71,7 +83,7 @@ export const AccountProfileDetails = (props) => {
                 name="firstName"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={first_name}
                 variant="outlined"
               />
             </Grid>
@@ -86,7 +98,7 @@ export const AccountProfileDetails = (props) => {
                 name="lastName"
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={last_name}
                 variant="outlined"
               />
             </Grid>
@@ -101,7 +113,7 @@ export const AccountProfileDetails = (props) => {
                 name="email"
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={email}
                 variant="outlined"
               />
             </Grid>
@@ -116,7 +128,7 @@ export const AccountProfileDetails = (props) => {
                 name="phone"
                 onChange={handleChange}
                 type="number"
-                value={values.phone}
+                value={Phone_No}
                 variant="outlined"
               />
             </Grid>
@@ -131,7 +143,7 @@ export const AccountProfileDetails = (props) => {
                 name="country"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={address.state}
                 variant="outlined"
               />
             </Grid>

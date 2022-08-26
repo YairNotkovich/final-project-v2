@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { LoginAsync ,setCredentials} from '../../context/auth/authSlice'
+import { LoginAsync, setCredentials } from '../../context/auth/authSlice'
 import { useDispatch } from 'react-redux';
 
 function Copyright(props) {
@@ -27,15 +27,16 @@ function Copyright(props) {
   );
 }
 
-const defaultFormFields = {
 
-  email: '',
-  password: '',
 
-};
+export default function SignIn({ Register }) {
 
-export default function SignIn({Register}) {
+  const defaultFormFields = {
 
+    email: '',
+    password: '',
+
+  };
 
   const dispatch = useDispatch()
 
@@ -51,15 +52,15 @@ export default function SignIn({Register}) {
   }
 
 
-  const handelRegister =()=>{
+  const handelRegister = () => {
     Register()
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
-        dispatch(setCredentials(formFields))
+    dispatch(setCredentials(formFields))
     try {
       dispatch(LoginAsync())
-      restFormFields()
+      // restFormFields()
     }
     catch (error) {
       switch (error.code) {
@@ -133,8 +134,8 @@ export default function SignIn({Register}) {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link  href="#" variant="body2" >
-              Forgot password?
+              <Link href="#" variant="body2" >
+                Forgot password?
               </Link>
             </Grid>
             <Grid item>

@@ -5,6 +5,7 @@ import countriesSlice from './context/locations/countries/countriesSlice'
 import userSlice from './context/user/userSlice'
 import adminSlice from './context/admin/adminSlice';
 
+
 export const store = configureStore({
   reducer: {
     auth:authSlice,

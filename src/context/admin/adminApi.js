@@ -1,15 +1,18 @@
 import { ADMIN_URL } from "../../utils/api/urls";
-import axios from "../../utils/api/generalAxios";
+import { privateAxios } from '../../utils/api/customAxios'
+
+const axios = privateAxios
 
 
+export const getUsers = () => {
+    return new Promise((resolve, reject) => {
 
+        axios.get(ADMIN_URL.ALL_USERS).then((res) => resolve(res))
+            .catch((err) => {
+                reject(err.response.data)
+            })
 
-export const getUsers = (config) => {
-    
-    return new Promise((resolve,reject) =>{
-    axios.get(ADMIN_URL.ALL_USERS, config).then((res) => resolve(res))
-    .catch((err) => {
-        reject(err.response.data)
-        })
+        
     })
-;}
+        ;
+}

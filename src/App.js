@@ -15,7 +15,7 @@ import { createEmotionCache } from './utils/create-emotion-cache';
 import Admin from './pages/admin-page';
 import FindFlight from './pages/find-flight';
 import Places from './pages/places';
-import SystemAdmin from './screens/system-admin';
+import Account from './pages/account';
 
 
 const clientSideEmotionCache = createEmotionCache();
@@ -71,7 +71,7 @@ function App(props) {
             <Route path='/admin' element={<Admin />} />
             <Route path='/places' element={<Places />} />
             <Route path='/flights' element={<FindFlight />} />
-            <Route path='/account' element={<SystemAdmin />} />
+            <Route path='/account' element={<Account />} />
 
 
 
