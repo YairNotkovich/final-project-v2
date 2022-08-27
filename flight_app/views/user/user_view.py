@@ -30,16 +30,36 @@ def profile_detail(request):
         return Response(serialized_profile, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT': 
-        data = request.data
-        print(profile.Photo)
-        updated_profile = profile.Photo = request.data['Photo']
-        if updated_profile:
+        user.first_name = request.data['first_name']
+        user.last_name =request.data['last_name']
+        profile.Address = request.data['Address']
+        profile.Phone_No = request.data['Phone_No']
+
+        if user and profile:
+            user.save()
             profile.save()
-            serialized_profile = UserProfileSerializer(profile)
-            return Response(serialized_profile.data, status=status.HTTP_202_ACCEPTED) 
+            return Response( status=status.HTTP_202_ACCEPTED) 
 
         return Response( status=status.HTTP_400_BAD_REQUEST)
 
 # @user_passes_test(lambda u: u.is_superuser)
 
 
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def upload_picture(request):
+    try: 
+        user = user_model.objects.get(id=request.user.id)
+        profile = user.userprofile
+        Response(status=status.HTTP_302_FOUND)
+    except user_model.DoesNotExist:
+        return Response({'message': f'The {profile._meta.verbose_name} does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+
+    new_photo = profile.Photo = request.data['Photo']
+
+    if new_photo:
+        profile.save()
+        serialized_profile = UserProfileSerializer(profile)
+        return Response(serialized_profile.data, status=status.HTTP_202_ACCEPTED) 
+
+    return Response( status=status.HTTP_400_BAD_REQUEST)

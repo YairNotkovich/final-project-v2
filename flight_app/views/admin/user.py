@@ -5,14 +5,13 @@ from rest_framework.parsers import JSONParser
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import get_user_model
 from flight_app.serializers import userSerializer
-from django.contrib.auth.decorators import user_passes_test
 from rest_framework import status
 import json
 
 # 'get', 'post', 'put', 'delete', 'patch', 'head', 'options', 'trace'
 
 modelSerializer = userSerializer
-model = user_passes_test()
+model = get_user_model()
 
 
 # get all users / create new user
@@ -25,11 +24,6 @@ def user_list(request):
     if request.method == 'GET':
         # get all objects in the model airline_companies
         result = model.objects.all()
-
-        # get object by name if given
-        obj_name = request.query_params.get('Name', None)
-        if obj_name is not None:
-            result = result.filter(Name__icontains=obj_name)
 
         return Response(modelSerializer(result, many=True).data)
 
