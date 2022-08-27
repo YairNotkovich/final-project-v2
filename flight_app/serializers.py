@@ -37,3 +37,10 @@ class userSerializer(ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = '__all__'
+
+
+class CustomerSerializer(ModelSerializer):
+
+    class Meta:
+        model = Customer
+        fields = '__all__'

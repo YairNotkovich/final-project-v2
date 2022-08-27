@@ -33,15 +33,14 @@ class UserProfile(models.Model):
     User = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     Role = models.ForeignKey(User_Role, on_delete=models.CASCADE, default=2, null=True)
     Photo = models.ImageField(upload_to='images', null=True)
-
+    Address = models.JSONField(verbose_name='address')
+    Phone_No = models.CharField(max_length=20)
     def __str__(self):
         return f'USER ID: {self.User.id}, USER NAME: {self.User}, USER ROLE: {self.Role}'
 
 class Customer(models.Model):
     User_Id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
-    Address = models.TextField(max_length=300)
-    Phone_No = models.CharField(max_length=20, unique=True)
-    Credit_Card_No = models.CharField(max_length=50, unique=True)
+    Credit_Card_No = models.CharField(max_length=50)
     def __str__(self):
         return f'USER: {self.User_Id}, Phone: {self.Phone_No}, 4 digits: {self.Credit_Card_No}'
 
