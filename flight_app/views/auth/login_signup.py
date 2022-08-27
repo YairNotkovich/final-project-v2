@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
+from flight_app.models import UserProfile
 import json
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -27,13 +28,14 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 @api_view(['POST'])
 def signUp(request):
-    model = get_user_model()
     user_credentials = request.data
     try:
-        model.objects.create_user(
+        new_user = get_user_model().objects.create_user(
             email = user_credentials['email'],
             password = user_credentials['password'],
             username = user_credentials['username'])
+        UserProfile.objects.create(User = new_user)
+        
         return Response(data ={"success"} ,status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response(data ={f"exception:{e}"},status=status.HTTP_409_CONFLICT)
