@@ -1,7 +1,7 @@
 
 
 from django.urls import path
-from user_view import profile_detail
+from .user_view import profile_detail
 from rest_framework_simplejwt.views import TokenRefreshView
 
 

@@ -8,33 +8,38 @@ from django.contrib.auth import get_user_model
 from flight_app.serializers import UserProfileSerializer,userSerializer
 from rest_framework import status
 
+user_model = userSerializer.Meta.model
+profile_model = UserProfileSerializer.Meta.model
 
 
-
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
-def profile_detail(request, id):
+def profile_detail(request):
     try: 
-        obj = model.objects.get(id=id)
+        user = user_model.objects.get(id=request.user.id)
+        profile = user.userprofile
         Response(status=status.HTTP_302_FOUND)
-    except model.DoesNotExist: 
-        return Response({'message': f'The {model.verbose_name} does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+    except user_model.DoesNotExist: 
+        return Response({'message': f'The {profile._meta.verbose_name} does not exist'}, status=status.HTTP_404_NOT_FOUND) 
  
     if request.method == 'GET':
-        return Response(modelSerializer(obj).data, status=status.HTTP_302_FOUND)
+        # return combined serialized data from user and user profile
+        serialized_user = userSerializer(user).data
+        serialized_profile = UserProfileSerializer(profile).data
+        serialized_profile.update(serialized_user)
+        return Response(serialized_profile, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT': 
-        obj_data = JSONParser().parse(request) 
-        obj_serializer = modelSerializer(obj, data=obj_data) 
-        if obj_serializer.is_valid(): 
-            obj_serializer.save() 
-            return Response(obj_serializer.data) 
-        return Response(obj_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        data = request.data
+        print(profile.Photo)
+        updated_profile = profile.Photo = request.data['Photo']
+        if updated_profile:
+            profile.save()
+            serialized_profile = UserProfileSerializer(profile)
+            return Response(serialized_profile.data, status=status.HTTP_202_ACCEPTED) 
 
-    elif request.method == 'DELETE':
-        obj.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-    return Response(status=status.HTTP_100_CONTINUE)
+        return Response( status=status.HTTP_400_BAD_REQUEST)
+
 # @user_passes_test(lambda u: u.is_superuser)
 
 

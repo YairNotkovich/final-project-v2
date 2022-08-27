@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
@@ -33,10 +34,12 @@ class UserProfile(models.Model):
     User = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     Role = models.ForeignKey(User_Role, on_delete=models.CASCADE, default=2, null=True)
     Photo = models.ImageField(upload_to='images', null=True)
-    Address = models.JSONField(verbose_name='address')
-    Phone_No = models.CharField(max_length=20)
+    Address = models.JSONField(default={ "state": "", "city": "", "street": "", "postcode": 0 },verbose_name='address')
+    Phone_No = models.CharField(max_length=20, default=0)
     def __str__(self):
         return f'USER ID: {self.User.id}, USER NAME: {self.User}, USER ROLE: {self.Role}'
+    class Meta:
+        verbose_name = 'Profile'
 
 class Customer(models.Model):
     User_Id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
