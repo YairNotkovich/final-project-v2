@@ -18,7 +18,7 @@ export const ADMIN_URL = {
 }
 
 export const USER_URL = {
-    GET_PROFILE:"/user/userprofile/",
+    USER_PROFILE:"/user/userprofile/",
     CREATE_PROFILE:"/user/create_profile/",
     UPLOAD_IMAGE: "/user/upload_image/"
 }

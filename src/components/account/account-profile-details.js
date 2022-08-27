@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { selectUser } from '../../context/user/userSlice';
+import { selectUser, updateUserAsync } from '../../context/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 
 
@@ -31,29 +31,39 @@ const states = [
 
 export const AccountProfileDetails = (props) => {
   const user = useSelector(selectUser)
+  const dispatch = useDispatch()
   const [values, setValues] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    address: { state: '', city: '', street: '', postcode: '' },
+    ...user
+  });
+  const [address_values, setAddress] = useState({
+    ...user.Address
   });
 
   const handleChange = (event) => {
+
     setValues({
       ...values,
       [event.target.name]: event.target.value
     });
   };
 
-  const {
-    first_name,
-    last_name,
-    email,
-    Phone_No,
-    address,
-    
-  } = user
+  const handleAddressChange = (event) => {
+    setAddress({
+      ...address_values,
+      [event.target.name]: event.target.value
+    })
+  }
+
+  const handleSave = () => {
+
+    const updated = {
+      ...values,
+      Address: { ...address_values }
+    }
+    dispatch(updateUserAsync(updated))
+  }
+
+
   return (
     <form
       autoComplete="off"
@@ -62,7 +72,7 @@ export const AccountProfileDetails = (props) => {
     >
       <Card>
         <CardHeader
-          subheader="The information can be edited"
+          subheader="You can edit your  details here"
           title="Profile"
         />
         <Divider />
@@ -80,10 +90,10 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 helperText="Please specify the first name"
                 label="First name"
-                name="firstName"
+                name="first_name"
                 onChange={handleChange}
-                required
-                value={first_name}
+                // required
+                value={values.first_name}
                 variant="outlined"
               />
             </Grid>
@@ -95,28 +105,14 @@ export const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 label="Last name"
-                name="lastName"
+                name="last_name"
                 onChange={handleChange}
-                required
-                value={last_name}
+                // required
+                value={values.last_name}
                 variant="outlined"
               />
             </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Email Address"
-                name="email"
-                onChange={handleChange}
-                required
-                value={email}
-                variant="outlined"
-              />
-            </Grid>
+
             <Grid
               item
               md={6}
@@ -125,10 +121,10 @@ export const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 label="Phone Number"
-                name="phone"
+                name="Phone_No"
                 onChange={handleChange}
                 type="number"
-                value={Phone_No}
+                value={values.Phone_No}
                 variant="outlined"
               />
             </Grid>
@@ -139,38 +135,46 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
-                label="Country"
-                name="country"
-                onChange={handleChange}
-                required
-                value={address.state}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Select State"
+                label="Country / State"
                 name="state"
-                onChange={handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={values.state}
+                onChange={handleAddressChange}
+                // required
+                value={values.Address && address_values.state}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Street"
+                name="street"
+                onChange={handleAddressChange}
+                // required
+                value={values.Address && address_values.street}
                 variant="outlined"
               >
-                {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
+
+              </TextField>
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Postcode"
+                name="postcode"
+                onChange={handleAddressChange}
+                // required
+                value={values.Address && address_values.postcode}
+                variant="outlined"
+              >
+
               </TextField>
             </Grid>
           </Grid>
@@ -186,8 +190,9 @@ export const AccountProfileDetails = (props) => {
           <Button
             color="primary"
             variant="contained"
+            onClick={handleSave}
           >
-            Save details
+            Save Changes
           </Button>
         </Box>
       </Card>

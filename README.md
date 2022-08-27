@@ -7,16 +7,17 @@
 [v] log out
 [v] avatar
 [v] register
-[] upload image
+[V] upload image
+[V] user profile
+[V] handle reject
+[V] handle response
 [] admin page
 [] airline page
 [] customer
-[] user profile
 [] search flight
 [] places
 [] favorites
-[] handle reject
-[] handle response
+
 
 # finalizing must  
 [] make read me
@@ -29,4 +30,4 @@
 [] generalize components
 [] organize components
 [] theme
-
+[] return to same page after refresh

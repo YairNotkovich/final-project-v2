@@ -6,7 +6,7 @@ const axios = privateAxios
 
 export const getUserProfile = () => {
     return new Promise((resolve,reject) =>{
-    axios.get(USER_URL.GET_PROFILE).then((res) => resolve(res))
+    axios.get(USER_URL.USER_PROFILE).then((res) => resolve(res))
     .catch((err) => {
         reject(err.response.data)
         })})
@@ -16,10 +16,17 @@ export const getUserProfile = () => {
 export const uploadPicture = (form) => {
 
     return new Promise((resolve,reject) =>{
-    axios.post(USER_URL.UPLOAD_IMAGE, form).then((res) => resolve(res))
+    axios.put(USER_URL.UPLOAD_IMAGE, form).then((res) => resolve(res))
     .catch((err) => {
         reject(err.response.data)
         })})
 ;}
 
+export const updateUserProfile = (profile) => {
 
+    return new Promise((resolve,reject) =>{
+    axios.put(USER_URL.USER_PROFILE, profile).then((res) => resolve(res))
+    .catch((err) => {
+        reject(err.response.data)
+        })})
+;}

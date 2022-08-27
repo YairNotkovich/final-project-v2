@@ -1,7 +1,8 @@
+import { ContactsOutlined } from '@mui/icons-material';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
 import { BASE_URL } from '../../utils/api/urls';
-import { uploadPicture, getUserProfile } from './userAPI'
+import { uploadPicture, getUserProfile, updateUserProfile } from './userAPI'
 
 const initialState = {
     email: "",
@@ -18,9 +19,9 @@ const initialState = {
     balance: 0,
     favorites: [],
     bookings: [],
-    address: { street: '', state: '', city: '', postcode: '' },
-    airline_code:"",
-    airline_name:"",
+    Address: { street: '', state: '', city: '', postcode: '' },
+    airline_code: "",
+    airline_name: "",
 };
 
 export const initiateUserAsync = createAsyncThunk(
@@ -33,7 +34,6 @@ export const initiateUserAsync = createAsyncThunk(
 
 
 export const uploadPictureAsync = createAsyncThunk(
-
     "user/uploadImage",
     async (file) => {
         const form = new FormData();
@@ -46,7 +46,6 @@ export const uploadPictureAsync = createAsyncThunk(
 
 
 export const getUserAsync = createAsyncThunk(
-
     "user/get_profile",
     async () => {
         const response = await getUserProfile()
@@ -55,6 +54,22 @@ export const getUserAsync = createAsyncThunk(
     }
 )
 
+export const updateUserAsync = createAsyncThunk(
+    "user/update",
+    async (update) => {
+
+        const update_details = {
+            Address: update.Address,
+            Phone_No: update.Phone_No,
+            first_name: update.first_name,
+            last_name: update.last_name
+        }
+
+        const response = await updateUserProfile(update_details)
+
+        return update_details
+    }
+)
 
 export const userSlice = createSlice({
     name: 'user',
@@ -70,10 +85,10 @@ export const userSlice = createSlice({
 
         },
         initUser: (state) => {
-            
+
             const keys = Object.keys(state);
             keys.forEach((key) => {
-                state[key] =  initialState[key] 
+                state[key] = initialState[key]
             });
         },
         setAddress: (state, action) => {
@@ -88,20 +103,19 @@ export const userSlice = createSlice({
             .addCase(uploadPictureAsync.fulfilled, (state, action) => {
                 state.avatar = action.payload.Photo
             })
-            .addCase(getUserAsync.fulfilled, (state, action) => {
+            .addCase(updateUserAsync.fulfilled, (state, action) => {
                 console.log(action.payload)
+            })
+            .addCase(getUserAsync.fulfilled, (state, action) => {
+
                 const state_keys = Object.keys(state);
                 state_keys.forEach((key) => {
-                    state[key] =  action.payload[key] 
+                    state[key] = action.payload[key]
                 });
-                // const address_keys = Object.keys(state.address);
-                // address_keys.forEach((key) => {
-                //     state[key] =  JSON.parse(action.payload.Address)[key] 
-                // });
                 state.role = action.payload.Role;
                 state.avatar = BASE_URL + action.payload.Photo;
                 state.user_id = action.payload.User;
-                if (action.payload.Role === 3){
+                if (action.payload.Role === 3) {
                     state.airline_code = action.payload.Code
                     state.airline_name = action.payload.Name
                 }

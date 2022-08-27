@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import { Outlet, Link, useNavigate } from 'react-router-dom'
+import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import Typography from "@mui/material/Typography";
 import NavContainer from '../components/nav/NavBarContainer';
 // import AdbIcon from '@mui/icons-material/Adb';
@@ -18,7 +18,6 @@ import { selectUser } from '../context/user/userSlice';
 import { showPopUp, selectAuth,LoginAsync } from '../context/auth/authSlice';
 import SignInPopUp from '../components/sign in popup/SigninPopup';
 import { getUserAsync } from '../context/user/userSlice';
-import { NavLink } from 'react-router-dom';
 
 
 
@@ -51,6 +50,8 @@ const EscAppBar = () => {
 
 
   
+  const location = useLocation()
+  let history = JSON.parse(sessionStorage.getItem("location"))
 
   const dispatch = useDispatch()
 
@@ -97,7 +98,7 @@ const EscAppBar = () => {
   React.useEffect(() => {
     if (authenticated){
     dispatch(getUserAsync());
-    console.log(avatar)}
+    }
   }, [authenticated,avatar])
 
   React.useEffect(() => {
@@ -109,6 +110,9 @@ const EscAppBar = () => {
       if(signInRedirect){
           dispatch(LoginAsync())}
   },[PopupState])
+
+
+
 
   return (
     <>
