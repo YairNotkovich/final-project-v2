@@ -9,29 +9,34 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TablePagination from '@mui/material/TablePagination';
+
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import EditIcon from '@mui/icons-material/Edit';
+import DoneIcon from '@mui/icons-material/Done';
 
 
 
-const Row = ({key, data, columns, children }) => {
+
+const Row = ({ data, columns, children, otherProps }) => {
     const [open, setOpen] = React.useState(false);
 
     return (
         <>
-            <TableRow  key={key} sx={{ '& > *': { borderBottom: 'unset' } }}>
-                <TableCell>
+            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+                <TableCell  >
                     <IconButton
                         aria-label="expand row"
                         size="small"
                         onClick={() => setOpen(!open)}
                     >
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                        {open ? <DoneIcon /> : <EditIcon />}
                     </IconButton>
                 </TableCell>
-                {columns.map((column,index) => <TableCell key={index} align="right">{data[column]}</TableCell>)}
+                {columns.map((column, index) => <TableCell key={`${index}cell`} align={column.align}>{data[column.value]}</TableCell>)}
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -45,6 +50,14 @@ const Row = ({key, data, columns, children }) => {
         </>
     )
 }
+Row.defaultProps = {
+    otherProps: {
+        align: "center"
+    }
+}
+
+
+
 
 // filler data for empty generation
 const coll1 = 'coll1'
@@ -55,35 +68,52 @@ CollapsibleTable.defaultProps = {
     columns: [coll1, coll2, coll3],
     rows: [{
         data: { coll1: 'a', coll2: 'b', coll3: 'c' },
-        children: <div>fgdfg</div>
+        children: <div></div>
     },
-  
-        ,]
-}
 
+        ,],
+
+    page: 0,
+    rowsPerPage: 13
+
+}
 
 export default function CollapsibleTable(props) {
-    const { rows, columns } = props
+    const { rows, columns, page, rowsPerPage } = props
+
+
+
+
     return (
-        <TableContainer component={Paper} >
-            <Table aria-label="collapsible table">
-                <TableHead>
+        <Paper sx={{ overflow: 'hidden', justifyContent: 'center' }}>
+            <TableContainer component={Paper} sx={{ maxHeight: '100%' }} >
+                <Table stickyHeader aria-label="collapsible table">
+                    <TableHead>
 
-                    <TableRow>
-                        <TableCell>
+                        <TableRow>
+                            <TableCell>
 
-                        </TableCell>
-                        {columns.map((column) => <TableCell >{column}</TableCell>)}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row,index) => {
-                        let data = row.data;
-                        let children = row.children;
-                        return Row({ key:{index},data, columns, children })
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                            </TableCell>
+                            {columns.map((column) =>
+                                <TableCell
+                                    style={{ minWidth: column.minWidth }}
+                                    align={column.align}>{column.label}
+                                </TableCell>)}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                                let data = row.data;
+                                let children = row.children;
+                                return <React.Fragment key={`${index}row`}>{Row({ data, columns, children })}</React.Fragment>
+                            })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+        </Paper>
     );
 }
+

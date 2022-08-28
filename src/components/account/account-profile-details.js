@@ -150,6 +150,21 @@ export const AccountProfileDetails = (props) => {
             >
               <TextField
                 fullWidth
+                label="City"
+                name="city"
+                onChange={handleAddressChange}
+                // required
+                value={values.Address && address_values.city}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
                 label="Street"
                 name="street"
                 onChange={handleAddressChange}

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { checkUser, selectAuth } from './context/auth/authSlice';
 import { fetchAirportsAsync } from './context/locations/airports/airportsSlice'
 import { fetchCountriesAsync } from './context/locations/countries/countriesSlice'
+import { fetchAirlinesAsync } from './context/airlines/airlinesSlice';
 import FarAway from './screens/faraway';
 import { createEmotionCache } from './utils/create-emotion-cache';
 import Admin from './pages/admin-page';
@@ -49,6 +50,7 @@ function App(props) {
       const fetchData = async () => {
         dispatch(fetchAirportsAsync())
         dispatch(fetchCountriesAsync())
+        dispatch(fetchAirlinesAsync())
       }
       fetchData()
       return () => {

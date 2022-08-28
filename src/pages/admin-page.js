@@ -1,27 +1,29 @@
 import * as React from 'react';
-import AdminDashboard from '../components/admin-dashboard/dashboard'
+import AdminDashboard from '../screens/admin-dashboard/dashboard'
 import { showPopUp, selectAuth } from '../context/auth/authSlice';
 import { selectUser } from '../context/user/userSlice';
 import { useSelector } from 'react-redux/es/exports';
 import { useNavigate } from 'react-router-dom';
-import Grid from '@mui/material/Grid';
+import { Grid, Box } from '@mui/material';
 const Admin = () => {
 
-const {role} = useSelector(selectUser)
+  const { role } = useSelector(selectUser)
 
 
-const navigate = useNavigate()
+  const navigate = useNavigate()
 
-React.useEffect(()=>{
-  if(role !== 1){
-    navigate('/')
-  }
-},[role])
+  React.useEffect(() => {
+    if (role !== 1) {
+      navigate('/')
+    }
+  }, [role])
 
   return (
-    <Grid sx={{height:'100vh'}}>
-    <AdminDashboard />
-    </Grid>
+    
+
+        <AdminDashboard />
+     
+    
   )
 }
 

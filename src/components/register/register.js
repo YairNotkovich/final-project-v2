@@ -77,7 +77,7 @@ export default function Register({ Register }) {
                 <Typography component="h1" variant="h5">
                     Register
                 </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box component="form" onSubmit={handleSubmit}  sx={{ mt: 1 }}>
                     <TextField
                         type={'email'}
                         margin="normal"

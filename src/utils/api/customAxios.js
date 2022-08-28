@@ -120,9 +120,9 @@ baseAxios.interceptors.response.use(
         }
 
         if (
-            error.response.status === 401 &&
-            originalRequest.url === BASE_URL + AUTH_URL.REFRESH
+            error.response.status === 401 
         ) {
+            alert('Check your email or password,\n note that email is also case sensitive')
             // window.location.href = '/login/';
             return Promise.reject(error);
         }

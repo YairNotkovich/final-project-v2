@@ -4,12 +4,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 
-const NavBarContainer = ({children}) => {
+const NavBarContainer = ({child}) => {
   return (
-    <AppBar position="static"sx={{ backgroundColor:'primary.contrastText'}}>
+    <AppBar position="sticky" sx={{ backgroundColor:'primary.contrastText'}}>
         <Container maxWidth="xl" >
         <Toolbar disableGutters >
-        {children}
+        {child}
         </Toolbar>
         </Container>
     </AppBar>

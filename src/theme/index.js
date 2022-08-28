@@ -4,7 +4,7 @@ export const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 600,
+      sm: 400,
       md: 1000,
       lg: 1200,
       xl: 1920
@@ -158,7 +158,7 @@ export const theme = createTheme({
     divider: '#E6E8F0',
     primary: {
       main: '#3498DB',
-      light: '#828DF8',
+      light: '#9dd8ff',
       dark: '#3832A0',
       contrastText: '#FFFFFF',
     },

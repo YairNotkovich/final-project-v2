@@ -1,25 +1,22 @@
 import * as React from 'react';
-import CollapsibleTable from '../components/tabel/collapsible-table';
-import { fetchUsersAsync } from '../context/admin/adminSlice';
+import CollapsibleTable from '../../components/tabel/collapsible-table';
+import { fetchUsersAsync } from '../../context/admin/adminSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from '../context/user/userSlice'
-import { selectAdmin } from '../context/admin/adminSlice';
-import { AccountProfile } from '../components/account/account-profile';
-import {Box,TextField} from '@mui/material';
+import { selectUser } from '../../context/user/userSlice'
+import { selectAdmin } from '../../context/admin/adminSlice';
+import { AccountProfile } from '../../components/account/account-profile';
+import { Box, Container, TextField } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { selectCountries } from '../../context/locations/countries/countriesSlice'
+import EditCountry from './edit_country';
 
 
 
-const headers = [
-  'id', 'username', 'email', 'first_name', 'last_name', 'last_login'
-]
 
-const tempChild = (
-  <AccountProfile />
-)
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -34,7 +31,7 @@ const Head = (props) => {
   const { name, search, edit } = props
 
 
-  
+
   return (
     <Box sx={{ flexGrow: 1, margin: 2 }}>
       <Grid container spacing={3}>
@@ -45,37 +42,33 @@ const Head = (props) => {
           <Item><TextField></TextField></Item>
         </Grid>
         <Grid item xs={2}>
-          <Item><AddOutlinedIcon/></Item>
+          <Item><AddOutlinedIcon /></Item>
         </Grid>
       </Grid>
     </Box>
   )
 }
 
-const Users = () => {
+const Countries = () => {
 
-
+  const columns = [
+    { value: 'id', align: 'center', label: '', },
+    { value: 'Name', align: 'center', label: 'Country Name', },
+    { value: 'Flag', align: 'center', label: 'Flag URL', },
+  ]
   const dispatch = useDispatch()
-  const rowsData = useSelector(selectAdmin).userList
+  // const rowsData = useSelector(selectAdmin).userList
   const { role } = useSelector(selectUser)
+  const rowsData = useSelector(selectCountries)
 
-  const newRow = (data, children) => {
-    return { data: data, children: children }
+  const newRow = (data, child) => {
+    return { data: data, children: child }
   }
 
   let rows = []
 
-  const refresh = React.useRef(false)
 
-  React.useEffect(() => {
-    if (refresh.current === true && role === 1) {
-      dispatch(fetchUsersAsync())
-    }
-    refresh.current = true
-  }, [role])
-
-  if(rowsData !==[])
-  {rows = rowsData.map(row => newRow(row, <AccountProfile />))}
+  if (rowsData !== []) { rows = rowsData.map(row => newRow(row, <EditCountry data={row} />)) }
 
   const pageControl = () => {
 
@@ -83,13 +76,13 @@ const Users = () => {
 
 
   return (
-    <>
+    <Grid sx={{ display: "flex", flexDirection: "column" }}>
       <Head
-        name='Users'
+        name='Countries'
       ></Head>
       {role === 1 ?
         <CollapsibleTable
-          columns={headers}
+          columns={columns}
           rows={rows} />
         :
         <Box>
@@ -99,8 +92,8 @@ const Users = () => {
           <p>HAHA... Stop it.</p>
         </Box>
       }
-    </>
+    </Grid>
   )
 }
 
-export default Users
+export default Countries

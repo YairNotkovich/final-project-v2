@@ -73,9 +73,9 @@ const FarAwayHero = () => {
   }
   // const numberOfHits = suggestedCountries.country[range / 100].length
   return (
-    <Grid sx={{ display: 'block', maxWidth: 900, justifyContent: 'space-around' }} >
+    <Grid sx={{ display: 'block', maxWidth: 900, justifyContent: 'space-around',transition:1}} >
 
-      <Card style={{ width: 800, minHeight: 800, marginLeft: '5%', padding: '1%' }}
+      <Card sx={{ minWidth:{md:'800px'} ,minHeight: 800, marginLeft: '5%', padding: '1%' }}
       >
         <CardContent>
           <Typography color='primary' fontWeight={600} fontSize={24} style={{ padding: '2%' }} >Far far away...

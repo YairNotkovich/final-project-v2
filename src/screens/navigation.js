@@ -15,10 +15,10 @@ import Logo from '../components/logo/Logo';
 import AvatarMenu from '../components/nav/AvatarMenu';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../context/user/userSlice';
-import { showPopUp, selectAuth,LoginAsync } from '../context/auth/authSlice';
+import { showPopUp, selectAuth, LoginAsync } from '../context/auth/authSlice';
 import SignInPopUp from '../components/sign in popup/SigninPopup';
 import { getUserAsync } from '../context/user/userSlice';
-
+import StickyFooter from './footer';
 
 
 const anonPages = [
@@ -49,14 +49,14 @@ const adminPages = [
 const EscAppBar = () => {
 
 
-  
+
   const location = useLocation()
   let history = JSON.parse(sessionStorage.getItem("location"))
 
   const dispatch = useDispatch()
 
   const { avatar, role, username, airline_name } = useSelector(selectUser)
-  const { PopupState, authenticated ,signInRedirect} = useSelector(selectAuth)
+  const { PopupState, authenticated, signInRedirect } = useSelector(selectAuth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [pages, setPages] = React.useState([])
@@ -86,7 +86,7 @@ const EscAppBar = () => {
       return customerPages
     }
     if (role === 3) {
-      const airline={name: `${airline_name}`, to: '/airline', icon: ''}
+      const airline = { name: `${airline_name}`, to: '/airline', icon: '' }
       airlinePages.push(airline)
       return airlinePages
     }
@@ -96,27 +96,28 @@ const EscAppBar = () => {
   }
 
   React.useEffect(() => {
-    if (authenticated){
-    dispatch(getUserAsync());
+    if (authenticated) {
+      dispatch(getUserAsync());
     }
-  }, [authenticated,avatar])
+  }, [authenticated, avatar])
 
   React.useEffect(() => {
     setPages(defPages())
   } // eslint-disable-next-line
     , [role])
 
-    React.useEffect(()=>{
-      if(signInRedirect){
-          dispatch(LoginAsync())}
-  },[PopupState])
+  React.useEffect(() => {
+    if (signInRedirect) {
+      dispatch(LoginAsync())
+    }
+  }, [PopupState])
 
 
 
 
   return (
     <>
-      <NavContainer  >
+      <NavContainer xs={12} minWidth={'600px'}  >
         <Link to="/">
           <Logo />
         </Link>
@@ -154,7 +155,7 @@ const EscAppBar = () => {
             }}
           >
             {pages.map((page) => (
-              <MenuItem 
+              <MenuItem
                 key={page.name} onClick={() => { navigate(page.to); handleCloseNavMenu() }} >
 
                 <Typography color='primary' textAlign="center">{page.name}</Typography>
@@ -200,6 +201,7 @@ const EscAppBar = () => {
       </NavContainer >
       {PopupState && <SignInPopUp />}
       <Outlet />
+      <StickyFooter />
     </>
   );
 };

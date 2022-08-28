@@ -1,6 +1,8 @@
 
-export const BASE_URL = "http://127.0.0.1:8000"
+import { REACT_APP_PLACES_API_KEY } from "./.secret"
 
+export const BASE_URL = "http://127.0.0.1:8000"
+export const PLACES_API_KEY = REACT_APP_PLACES_API_KEY
 export const LOCATION_URL = {
     GET_AIRPORTS: "/general/fetch_airports/",
     GET_COUNTRIES: "/general/fetch_countries/"
@@ -29,5 +31,18 @@ export const CUSTOMER_URL = {
 
 
 export const AIRLINE_URL = {
-    BASE:BASE_URL,
+    AIRLINES_LIST:"/supplier/airline_list/"
+}
+
+export const AIRLINE_LOGO = (iata='ly',height=75,width=150) =>
+   (`https://daisycon.io/images/airline/?width=${width}&height=${height}&color=ffffff&iata=${iata}`)
+
+
+export const GOOGLE_PLACE_URL = {
+    REF_CALL : (key = PLACES_API_KEY,place) =>{
+
+    },
+    PHOTO_CALL: (key = PLACES_API_KEY, ref)=>{
+
+    }
 }
