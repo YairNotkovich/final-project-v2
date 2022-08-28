@@ -50,3 +50,10 @@ class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = UserProfile
         fields = '__all__'
+
+
+class RoutSerializer(ModelSerializer):
+
+      class Meta:
+        model = FlightRoute
+        fields = '__all__'

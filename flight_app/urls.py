@@ -10,7 +10,12 @@ urlpatterns = [
 
     path('system/', include('flight_app.views.admin.urls'), name='admin_ops'),
     path('auth/', include('flight_app.views.auth.urls'), name='auth_ops'),
-    path('user/', include('flight_app.views.user.urls'), name='user_ops')
+    path('user/', include('flight_app.views.user.urls'), name='user_ops'),
+    path('supplier/', include('flight_app.views.supplier_views.urls'),
+         name='airline_ops'),
+    path('flight_search/', include('flight_app.views.flight_search.urls'),
+         name='flight_search'),
+
     # path('all_flights/', views.all_flights),airline_detail/
     # path('test', calcRange.calcRange)
     # path('adduser/', .addUser),airline_list
