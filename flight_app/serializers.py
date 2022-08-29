@@ -57,3 +57,10 @@ class RoutSerializer(ModelSerializer):
       class Meta:
         model = FlightRoute
         fields = '__all__'
+
+
+class FlightSerializer(ModelSerializer):
+
+    class Meta:
+        model = Flight
+        fields = '__all__'
