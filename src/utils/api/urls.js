@@ -3,6 +3,7 @@ import { REACT_APP_PLACES_API_KEY } from "./.secret"
 
 export const BASE_URL = "http://127.0.0.1:8000"
 export const PLACES_API_KEY = REACT_APP_PLACES_API_KEY
+
 export const LOCATION_URL = {
     GET_AIRPORTS: "/general/fetch_airports/",
     GET_COUNTRIES: "/general/fetch_countries/"
@@ -25,9 +26,9 @@ export const USER_URL = {
     UPLOAD_IMAGE: "/user/upload_image/"
 }
 
-export const CUSTOMER_URL = {
-    BASE:BASE_URL,
-}
+export const CUSTOMER_URL =(origin_id,dest_id,depart,back) =>({
+    SEARCH_FLIGHT:`anon/<int:${origin_id}>/<int:${dest_id}>/<${depart}>/${back &&`<${back}>/`}`,
+})
 
 
 export const AIRLINE_URL = {

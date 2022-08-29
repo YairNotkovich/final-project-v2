@@ -23,10 +23,11 @@ export default function ToggleTrip() {
       >
         <ToggleButton
           onClick={handleChange}
-          component={Chip} label="Round Trip" value="round" name="round" />
+           value="round" >Round trip</ToggleButton>
         <ToggleButton
           onClick={handleChange}
-          component={Chip} label="One Way" value="one" name="one" />
+          value="one"  >one way</ToggleButton>
+
       </ToggleButtonGroup>
     </Box>
   );

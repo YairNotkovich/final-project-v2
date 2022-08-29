@@ -6,7 +6,11 @@ import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 const AirportSearch = (props) => {
   const airports = useSelector(selectAirports)
   const [result, setResult] = React.useState(false)
-
+  let items
+  if (props.result) {
+    items = props.result
+  }
+  else (items = airports)
   const handleChange = (item) => {
 
     setResult(false)
@@ -29,12 +33,13 @@ const AirportSearch = (props) => {
   return (
     <>
       <ReactSearchAutocomplete
-        items={airports}
+        items={items}
         onClear={handleClear}
         onSelect={handleOnSelect}
         formatResult={handleResultFormat}
         onSearch={handleChange}
         autoFocus
+        showIcon={false}
         fuseOptions={{ keys: ["iata_code", "name", "city", "country_name"] }}
         resultStringKeyName="display_name"
         {...props}

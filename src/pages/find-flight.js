@@ -11,11 +11,10 @@ import {
   Divider
 } from '@mui/material';
 
-import ToggleTrip from '../components/toggle button/toggle-trip';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import AirportSearch from '../components/search-autocomplete/AirportSearch.js';
 import FlightLandIcon from '@mui/icons-material/FlightLand';
-import SearchFlight from '../screens/search-flight';
+import SearchFlight from '../screens/search-flight-hero';
 
 
 const FindFlight = () => {

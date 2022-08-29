@@ -30,7 +30,7 @@ const states = [
     }
 ];
 
-const EditUser = ({ data }, props) => {
+const EditUser = ({ data}, props) => {
     const dispatch = useDispatch()
     const [values, setValues] = useState({
         ...data
@@ -63,7 +63,6 @@ const EditUser = ({ data }, props) => {
         // dispatch(updateUserAsync(updated))
     }
 
-    console.log(values)
     return (
         <form
             autoComplete="off"

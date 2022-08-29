@@ -62,10 +62,9 @@ const Airlines = () => {
   const rowsData = active_airlines? active_airlines: []
 
   // row structure 
-  const newRow = (data, child) => {
-    return { data: data, children: child }
+  const newRow = (data,children) => {
+    return { data:data, children: children }
   }
-
   let rows = []
 
 

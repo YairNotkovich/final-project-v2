@@ -3,7 +3,6 @@ import  axios from '../../utils/api/customAxios'
 import {AUTH_URL} from '../../utils/api/urls'
 
 export const signIn = (user) => {
-    console.log(user);
     return new Promise((resolve,reject) =>{
     axios.post(AUTH_URL.LOGIN, user).then((res) => resolve(res))
     .catch((err) => {

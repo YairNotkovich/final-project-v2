@@ -3,7 +3,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
-import './App.css';
 import EscAppBar from './screens/navigation';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { checkUser, selectAuth } from './context/auth/authSlice';
@@ -16,7 +15,7 @@ import Admin from './pages/admin-page';
 import FindFlight from './pages/find-flight';
 import Places from './pages/places';
 import Account from './pages/account';
-
+import { initTrip } from './context/trip/tripSlice';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -25,7 +24,6 @@ function App(props) {
   const dispatch = useDispatch()
   const runCheckUser = useRef(false)
   const runFetchData = useRef(true)
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const { accessToken } = useSelector(selectAuth)
 

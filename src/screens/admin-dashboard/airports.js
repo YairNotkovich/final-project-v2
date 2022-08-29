@@ -61,8 +61,8 @@ const Airports = () => {
   // const rowsData = useSelector(selectAdmin).userList
   const rowsData = useSelector(selectAirports)
 
-  const newRow = (data, children) => {
-    return { data: data, children: children }
+  const newRow = (data,children) => {
+    return { data:data, children: children }
   }
 
   let rows = []

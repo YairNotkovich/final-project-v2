@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 
 
 
-const PopUpDialog = ({children,title, onClose, selectedValue, open}) => {
+const PopUpDialog = ({title, onClose, selectedValue, open,children}) => {
 
   const handleClose = () => {
     onClose(selectedValue);

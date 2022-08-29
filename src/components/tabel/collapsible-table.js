@@ -21,7 +21,7 @@ import DoneIcon from '@mui/icons-material/Done';
 
 
 
-const Row = ({ data, columns, children, otherProps }) => {
+const Row = ({ data, columns,children, props }) => {
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -82,8 +82,6 @@ export default function CollapsibleTable(props) {
     const { rows, columns, page, rowsPerPage } = props
 
 
-
-
     return (
         <Paper sx={{ overflow: 'hidden', justifyContent: 'center' }}>
             <TableContainer component={Paper} sx={{ maxHeight: '100%' }} >
@@ -107,7 +105,7 @@ export default function CollapsibleTable(props) {
                             .map((row, index) => {
                                 let data = row.data;
                                 let children = row.children;
-                                return <React.Fragment key={`${index}row`}>{Row({ data, columns, children })}</React.Fragment>
+                                return <React.Fragment key={`${index}row`}>{Row({ data, columns ,children})}</React.Fragment>
                             })}
                     </TableBody>
                 </Table>

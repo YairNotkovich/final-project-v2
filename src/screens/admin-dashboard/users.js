@@ -61,8 +61,8 @@ const Users = ({rowsData}) => {
     { value: 'last_login', align: 'center', label: 'LAst Login', },
   ]
 
-  const newRow = (data, children) => {
-    return { data: data, children: children }
+  const newRow = (data,children) => {
+    return { data:data, children: children }
   }
 
   let rows = []

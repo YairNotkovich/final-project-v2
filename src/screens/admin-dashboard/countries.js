@@ -61,8 +61,8 @@ const Countries = () => {
   const { role } = useSelector(selectUser)
   const rowsData = useSelector(selectCountries)
 
-  const newRow = (data, child) => {
-    return { data: data, children: child }
+  const newRow = (data,children) => {
+    return { data:data, children: children }
   }
 
   let rows = []

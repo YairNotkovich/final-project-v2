@@ -19,8 +19,7 @@ import { selectAdmin } from '../../context/admin/adminSlice';
 import { fetchUsersAsync } from '../../context/admin/adminSlice';
 
 
-function TabPanel(props) {
-  const { child, value, index, ...other } = props;
+function TabPanel({children,index,value}) {
 
   return (
     <div
@@ -28,11 +27,11 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
-      {...other}
+
     >
       {value === index && (
         <Box  >
-          {child}
+          {children}
         </Box>
       )}
     </div>
@@ -64,7 +63,6 @@ export default function AdminDashboard() {
   const userData = useSelector(selectAdmin).userList
   const { role } = useSelector(selectUser)
 
-
   React.useEffect(() => {
     if (refresh.current === true && role === 1) {
       dispatch(fetchUsersAsync())
@@ -73,71 +71,71 @@ export default function AdminDashboard() {
   }, [role])
 
   return (
-      <Grid
-        container
-        rowSpacing={{}}
-        spacing={{ xs: .5, md: 1 }} sx={{ flexGrow: 1, display: 'flex',position:'fixed'}}
+    <Grid
+      container
+      rowSpacing={{}}
+      spacing={{ xs: .5, md: 1 }} sx={{ flexGrow: 1, display: 'flex', position: 'fixed' }}
+    >
+      <Box
+
+        sx={{
+          bgcolor: 'background.paper',
+          display: 'flex',
+          justifyContent: { xs: 'start', md: 'space-between' },
+          width: "100%",
+
+        }}
       >
-        <Box
-
-          sx={{
-            bgcolor: 'background.paper',
-            display: 'flex',
-            justifyContent: { xs: 'start', md: 'space-between' },
-            width: "100%",
-
-          }}
-        >
-          <Grid item xs="auto">
-            <Tabs
-              orientation="vertical"
-              variant="scrollable"
-              value={value}
-              onChange={handleChange}
-              aria-label="Vertical tabs example"
-              sx={{ borderRight: 1, borderColor: 'divider', maxWidth: '140px' , display: {sm:'block',xs:'none'}, left: 0 }}
-            >
-              <Tab icon={<PeopleAltIcon />} iconPosition="start" label="Users" {...a11yProps(0)} />
-              <Tab icon={<PublicIcon />} iconPosition="start" label='Countries' {...a11yProps(1)} />
-              <Tab icon={<AirlinesIcon />} iconPosition="start" label="Airlines" {...a11yProps(2)} />
-              <Tab icon={<ConnectingAirportsIcon />} iconPosition="start" label="Airports" {...a11yProps(3)} />
-              <Tab icon={<SettingsIcon />} iconPosition="start" label="Settings" {...a11yProps(4)} />
-              {/* <Tab label="Item Six" {...a11yProps(5)} />
+        <Grid item xs="auto">
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs example"
+            sx={{ borderRight: 1, borderColor: 'divider', maxWidth: '140px', display: { sm: 'block', xs: 'none' }, left: 0 }}
+          >
+            <Tab icon={<PeopleAltIcon />} iconPosition="start" label="Users" {...a11yProps(0)} />
+            <Tab icon={<PublicIcon />} iconPosition="start" label='Countries' {...a11yProps(1)} />
+            <Tab icon={<AirlinesIcon />} iconPosition="start" label="Airlines" {...a11yProps(2)} />
+            <Tab icon={<ConnectingAirportsIcon />} iconPosition="start" label="Airports" {...a11yProps(3)} />
+            <Tab icon={<SettingsIcon />} iconPosition="start" label="Settings" {...a11yProps(4)} />
+            {/* <Tab label="Item Six" {...a11yProps(5)} />
         <Tab label="Item Seven" {...a11yProps(6)} /> */}
-            </Tabs>
+          </Tabs>
+        </Grid>
+        <Box sx={{ margin: 'auto', width: { xl: '50%', md: '70%', sm: "500px", xs: "250" } }}>
+          <Grid item xs={12} >
+            <TabPanel value={value} index={0} >
+              <Users rowsData={userData} />
+            </TabPanel>
+
+            <TabPanel value={value} index={1}>
+              <Countries />
+            </TabPanel>
+
+            <TabPanel value={value} index={2}>
+              <Airlines />
+            </TabPanel>
+
+            <TabPanel value={value} index={3}>
+              <Airports />
+            </TabPanel>
+
+            <TabPanel value={value} index={4}>
+              Item Five
+            </TabPanel>
+
+            <TabPanel value={value} index={5}>
+              Item Six
+            </TabPanel>
+
+            <TabPanel value={value} index={6}>
+              Item Seven
+            </TabPanel>
           </Grid>
-          <Box  sx={{ margin: 'auto', width: { xl: '50%', md: '70%', sm:"500px",xs:"250"}}}>
-            <Grid item xs={12} >
-              <TabPanel value={value} index={0} >
-                <Users rowsData={userData} />
-              </TabPanel>
-
-              <TabPanel value={value} index={1}>
-                <Countries />
-              </TabPanel>
-
-              <TabPanel value={value} index={2}>
-                <Airlines />
-              </TabPanel>
-
-              <TabPanel value={value} index={3}>
-                <Airports />
-              </TabPanel>
-
-              <TabPanel value={value} index={4}>
-                Item Five
-              </TabPanel>
-
-              <TabPanel value={value} index={5}>
-                Item Six
-              </TabPanel>
-
-              <TabPanel value={value} index={6}>
-                Item Seven
-              </TabPanel>
-            </Grid>
-          </Box>
-        </Box >
-      </Grid >
+        </Box>
+      </Box >
+    </Grid >
   );
 }

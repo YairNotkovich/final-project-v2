@@ -12,6 +12,9 @@
 [V] handle reject
 [V] handle response
 [] admin page
+    [] pagination
+    [] search
+    [] new
 [] airline page
 [] customer
 [] search flight

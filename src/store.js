@@ -5,6 +5,7 @@ import countriesSlice from './context/locations/countries/countriesSlice'
 import userSlice from './context/user/userSlice'
 import adminSlice from './context/admin/adminSlice';
 import airlinesSlice from './context/airlines/airlinesSlice';
+import tripSlice from './context/trip/tripSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     user: userSlice,
     admin:adminSlice,
     airlines: airlinesSlice,
+    trip: tripSlice,
   },
 });
 
