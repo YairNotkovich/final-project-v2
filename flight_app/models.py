@@ -126,10 +126,11 @@ class Flight(models.Model):
         Airport, null=False, on_delete=models.CASCADE, related_name='Origin_airport_Id')
     Arrival_airport_id = models.ForeignKey(
         Airport, null=False, on_delete=models.CASCADE, related_name='Destination_airport_Id')
-    Departure_time = models.DateTimeField()
-    Landing_time = models.DateTimeField()
+    Departure_time = models.DateTimeField(null = True)
+    Landing_time = models.DateTimeField(null = True)
     Flight_Number = models.CharField(max_length=20)
-    Remaining_Tickets = models.IntegerField()
+    Remaining_Tickets = models.IntegerField(default=100)
+    flight_range = models.IntegerField(default=0)
 
 
 class Ticket(models.Model):
