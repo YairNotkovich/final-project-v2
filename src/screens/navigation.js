@@ -9,10 +9,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import Typography from "@mui/material/Typography";
-import NavContainer from '../components/nav/NavBarContainer';
+import NavContainer from '../components/nav/navbar-container';
 // import AdbIcon from '@mui/icons-material/Adb';
 import Logo from '../components/logo/Logo';
-import AvatarMenu from '../components/nav/AvatarMenu';
+import AvatarMenu from '../components/nav/dropdown-avatar';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser } from '../context/user/userSlice';
 import { showPopUp, selectAuth, LoginAsync } from '../context/auth/authSlice';

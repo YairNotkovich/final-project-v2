@@ -1,24 +1,27 @@
-import './test.scss'
+import '../flightapp.styles.scss'
 import ToggleTrip from '../components/toggle button/toggle-trip'
 import Calendar from 'react-calendar';
 import React, { useState } from 'react';
 import 'react-calendar/dist/Calendar.css';
 import Popper from '@mui/material/Popper';
-
+import FlightSearchInput from '../components/flight-search-hero/flight-search-input';
 
 const SearchFlight = () => {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorE2, setAnchorE2] = React.useState(null);
+
+    const [departureDate, setDepartureDate] = React.useState(new Date())
 
     const handleClickdepart = (event) => {
-       
+
         setAnchorEl(anchorEl ? null : event.currentTarget);
     };
     const handleClickreturn = (event) => {
-        setAnchorEl(anchorEl ? null : event.currentTarget);
+        setAnchorEl(anchorE2 ? null : event.currentTarget);
     };
     const open = Boolean(anchorEl);
-    const id ='simple-popper'// open? 'simple-popper' : undefined;
+    const id = 'simple-popper'// open? 'simple-popper' : undefined;
 
     return (
         <div className="searchengBg">
@@ -41,6 +44,7 @@ const SearchFlight = () => {
                 </div>
                 <div className="flig-show1">
                     <div className="nwsearch_wrap">
+                        <FlightSearchInput></FlightSearchInput>
                         <div className="fss_flex depcity_colm sechver">
                             <div
                                 className="innerspcr"
@@ -123,11 +127,11 @@ const SearchFlight = () => {
                             <div  ></div>
                         </div>
                         <div className="fss_flex depdate_colm sechver retu-date-n"
-                        onClick={handleClickreturn} >
+                            onClick={handleClickreturn} >
                             <div
                                 className="innerspcr"
 
-                                
+
                             >
                                 <p className="srlabel">Return Date</p>
                                 <input
@@ -144,7 +148,7 @@ const SearchFlight = () => {
                                     <span className="ftn25 mgr5" ></span
                                     ><span className="ftn13"></span
                                     >
-                                    <Popper id={id} open={open} anchorEl={anchorEl}><Calendar onClickDay={(e)=>console.log(e)} /></Popper>
+                                    <Popper id={id} open={open} anchorEl={anchorE2}><Calendar onClickDay={(e) => console.log(e)} /></Popper>
                                     {/* <img className="cl_icon" src="/Content/img/calender_icon.svg" /> */}
                                 </p>
                                 <p className="airptname" ></p>

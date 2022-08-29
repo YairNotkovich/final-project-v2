@@ -1,11 +1,10 @@
 import { React, useEffect, useRef } from 'react'
-import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { theme } from './theme';
 import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import NavBar from './screens/navigation';
+import EscAppBar from './screens/navigation';
 import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { checkUser, selectAuth } from './context/auth/authSlice';
 import { fetchAirportsAsync } from './context/locations/airports/airportsSlice'
@@ -63,12 +62,11 @@ function App(props) {
 
 
   return (
-    <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
 
         <Routes>
-          <Route path='/' element={<NavBar />}>
+          <Route path='/' element={<EscAppBar />}>
             <Route index element={<FarAway />} />
             <Route path='/admin' element={<Admin />} />
             <Route path='/places' element={<Places />} />
@@ -89,7 +87,6 @@ function App(props) {
         </Routes>
       </ThemeProvider>
 
-    </CacheProvider>
 
   );
 }
