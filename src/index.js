@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './flightapp.styles.scss'
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { store } from './context/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';

@@ -12,6 +12,7 @@ import { styled } from '@mui/material/styles';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { selectCountries } from '../../context/locations/countries/countriesSlice'
 import EditCountry from './edit_country';
+import TablePagination from '@mui/material/TablePagination';
 
 
 
@@ -61,8 +62,8 @@ const Countries = () => {
   const { role } = useSelector(selectUser)
   const rowsData = useSelector(selectCountries)
 
-  const newRow = (data,children) => {
-    return { data:data, children: children }
+  const newRow = (data, children) => {
+    return { data: data, children: children }
   }
 
   let rows = []
@@ -73,6 +74,17 @@ const Countries = () => {
   const pageControl = () => {
 
   }
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(13);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
 
   return (
@@ -80,18 +92,31 @@ const Countries = () => {
       <Head
         name='Countries'
       ></Head>
-      {role === 1 ?
-        <CollapsibleTable
-          columns={columns}
-          rows={rows} />
-        :
-        <Box>
-          <h2>404</h2>
-          <h3>Oops, nothing here...</h3>
-          <p>Please Check the URL</p>
-          <p>HAHA... Stop it.</p>
-        </Box>
-      }
+      <TablePagination
+        showFirstButton={true}
+        // showLastButton={true}
+        rowsPerPageOptions={[13]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        SelectProps={{
+          inputProps: {
+            'aria-label': 'rows per page',
+          },
+          native: true,
+        }}
+      />
+      <CollapsibleTable
+        columns={columns}
+        rows={rows} 
+          rowsPerPage={rowsPerPage}
+        page={page} 
+        />
+
+
     </Grid>
   )
 }

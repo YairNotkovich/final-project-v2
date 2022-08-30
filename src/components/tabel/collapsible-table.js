@@ -21,7 +21,7 @@ import DoneIcon from '@mui/icons-material/Done';
 
 
 
-const Row = ({ data, columns,children, props }) => {
+const Row = ({ data, columns, children, props }) => {
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -83,9 +83,11 @@ export default function CollapsibleTable(props) {
 
 
     return (
-        <Paper sx={{ overflow: 'hidden', justifyContent: 'center' }}>
-            <TableContainer component={Paper} sx={{ maxHeight: '100%' }} >
-                <Table stickyHeader aria-label="collapsible table">
+        <Paper sx={{ overflow: 'hidden', height: '1800px' }}>
+            <TableContainer sx={{ maxHeight: '900px', margin: 'auto' }} >
+                <Table
+                    stickyHeader
+                    aria-label="collapsible table">
                     <TableHead>
 
                         <TableRow>
@@ -100,13 +102,14 @@ export default function CollapsibleTable(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
-                                let data = row.data;
-                                let children = row.children;
-                                return <React.Fragment key={`${index}row`}>{Row({ data, columns ,children})}</React.Fragment>
-                            })}
+                        {(rowsPerPage > 0
+                            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            : rows
+                        ).map((row, index) => {
+                            let data = row.data;
+                            let children = row.children;
+                            return <React.Fragment key={`${index}row`}>{Row({ data, columns, children })}</React.Fragment>
+                        })}
                     </TableBody>
                 </Table>
             </TableContainer>

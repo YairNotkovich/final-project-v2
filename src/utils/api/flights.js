@@ -1,4 +1,9 @@
+
+/// attempting an API call to get real time offers
+
+
 const axios = require("axios");
+
 
 const options = {
   method: 'GET',

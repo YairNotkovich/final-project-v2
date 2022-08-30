@@ -30,7 +30,7 @@ const states = [
     }
 ];
 
-const EditUser = ({ data}, props) => {
+const EditCustomer = ({ data}, props) => {
     const dispatch = useDispatch()
     const [values, setValues] = useState({
         ...data
@@ -41,17 +41,17 @@ const EditUser = ({ data}, props) => {
 
     const handleChange = (event) => {
 
-        setValues({
-            ...values,
-            [event.target.name]: event.target.value
-        });
+        // setValues({
+        //     ...values,
+        //     [event.target.name]: event.target.value
+        // });
     };
 
     const handleAddressChange = (event) => {
-        setAddress({
-            ...address_values,
-            [event.target.name]: event.target.value
-        })
+        // setAddress({
+        //     ...address_values,
+        //     [event.target.name]: event.target.value
+        // })
     }
 
     const handleSave = () => {
@@ -60,7 +60,6 @@ const EditUser = ({ data}, props) => {
             ...values,
             Address: { ...address_values }
         }
-        // dispatch(updateUserAsync(updated))
     }
 
     return (
@@ -71,8 +70,8 @@ const EditUser = ({ data}, props) => {
         >
             <Card>
                 <CardHeader
-                    subheader="You can edit your  details here"
-                    title="Profile"
+                    // subheader="You can edit your  details here"
+                    title={`booked flights: ${values.bookings.length}`}
                 />
                 <Divider />
                 <CardContent>
@@ -96,7 +95,21 @@ const EditUser = ({ data}, props) => {
                         >
                             <TextField
                                 fullWidth
-                                helperText="Please specify the first name"
+                                label="Flights"
+                                name="first_name"
+                                onChange={handleChange}
+                                // required
+                                value={values.bookings.map(booking=>` ${booking.Flight}`)}
+                                variant="outlined"
+                            />
+                        </Grid>
+                        <Grid
+                            item
+                            md={6}
+                            xs={12}
+                        >
+                            <TextField
+                                fullWidth
                                 label="First name"
                                 name="first_name"
                                 onChange={handleChange}
@@ -210,17 +223,17 @@ const EditUser = ({ data}, props) => {
                         p: 2
                     }}
                 >
-                    <Button
+                    {/* <Button
                         color="primary"
                         variant="contained"
                         onClick={handleSave}
                     >
                         Save Changes
-                    </Button>
+                    </Button> */}
                 </Box>
             </Card>
         </form>
     );
 };
 
-export default EditUser
+export default EditCustomer

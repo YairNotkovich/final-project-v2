@@ -1,7 +1,12 @@
 
 import { REACT_APP_PLACES_API_KEY } from "./.secret"
 
+
 export const BASE_URL = "http://127.0.0.1:8000"
+
+export const IMAGE_URL = (src_url)=>(BASE_URL+`${src_url}`)
+
+
 export const PLACES_API_KEY = REACT_APP_PLACES_API_KEY
 
 export const LOCATION_URL = {
@@ -32,7 +37,9 @@ export const CUSTOMER_URL =(origin_id,dest_id,depart,back) =>({
 
 
 export const AIRLINE_URL = {
-    AIRLINES_LIST:"/supplier/airline_list/"
+    AIRLINES_LIST:"/supplier/airline_list/",
+    AIRLINE:"/supplier/get_airline_private/"
+
 }
 
 export const AIRLINE_LOGO = (iata='ly',height=75,width=150) =>

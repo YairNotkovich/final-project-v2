@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { selectAirlines } from '../../context/airlines/airlinesSlice';
-import EditAirline from './edit_airline';
+import EditAirline from './edit_flight';
 import TablePagination from '@mui/material/TablePagination';
 
 
@@ -76,17 +76,6 @@ const Airlines = () => {
   const pageControl = () => {
 
   }
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(13);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
 
 
   return (
@@ -94,29 +83,11 @@ const Airlines = () => {
       <Head
         name='Airline Companies'
       ></Head>
-  <TablePagination
-      showFirstButton={true}
-      // showLastButton={true}
-        rowsPerPageOptions={[13]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        SelectProps={{
-          inputProps: {
-            'aria-label': 'rows per page',
-          },
-          native: true,
-        }}
-      />
+
       <CollapsibleTable
         columns={columns}
-        rows={rows}
-        rowsPerPage={rowsPerPage}
-        page={page}
-         />
+        rows={rows} />
+      
     </Grid>
   )
 }

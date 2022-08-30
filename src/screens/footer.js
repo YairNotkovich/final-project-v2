@@ -30,7 +30,7 @@ export default function StickyFooter() {
                     mt: 'auto',
                     position: 'fixed',
                     bottom: 0,
-                    backgroundColor:'primary.contrastText',
+                    backgroundColor:'background.paper',
                 }}
             >
                 <Container >

@@ -1,7 +1,7 @@
 import { ContactsOutlined } from '@mui/icons-material';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
-import { BASE_URL } from '../../utils/api/urls';
+import { IMAGE_URL } from '../../utils/api/urls';
 import { uploadPicture, getUserProfile, updateUserProfile } from './userAPI'
 
 const initialState = {
@@ -16,8 +16,6 @@ const initialState = {
     role: 0,
     Phone_No: "",
     credit: "",
-    balance: 0,
-    favorites: [],
     bookings: [],
     Address: { street: '', state: '', city: '', postcode: '' },
     airline_code: "",
@@ -78,7 +76,7 @@ export const userSlice = createSlice({
         setBaseUser: (state, action) => {
             state.username = action.payload.username
             state.role = action.payload.role
-            state.avatar = BASE_URL + action.payload.avatar
+            state.avatar = IMAGE_URL(action.payload.avatar) 
             state.profile_id = action.payload.id
             state.user_id = action.payload.user_id
             console.log('base user', action.payload)
@@ -113,7 +111,7 @@ export const userSlice = createSlice({
                     state[key] = action.payload[key]
                 });
                 state.role = action.payload.Role;
-                state.avatar = BASE_URL + action.payload.Photo;
+                state.avatar = IMAGE_URL(action.payload.Photo) ;
                 state.user_id = action.payload.User;
                 if (action.payload.Role === 3) {
                     state.airline_code = action.payload.Code

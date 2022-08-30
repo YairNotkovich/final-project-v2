@@ -9,17 +9,22 @@ import PublicIcon from '@mui/icons-material/Public';
 import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
 import AirlinesIcon from '@mui/icons-material/Airlines';
 import SettingsIcon from '@mui/icons-material/Settings';
-import Users from './users';
-import Countries from './countries';
+import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
+import FlightIcon from '@mui/icons-material/Flight';
 import Airports from './airports';
-import Airlines from './airlines';
+import { selectAirline } from '../../context/airline_company/airlineCompanySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../context/user/userSlice'
-import { selectAdmin } from '../../context/admin/adminSlice';
 import { fetchUsersAsync } from '../../context/admin/adminSlice';
+import Customer from './customers';
+import Flights from './flights';
+import Booking from './bookings';
 
 
-function TabPanel({children,index,value}) {
+
+
+
+function TabPanel({ children, index, value }) {
 
   return (
     <div
@@ -51,27 +56,18 @@ function a11yProps(index) {
   };
 }
 
-export default function AdminDashboard() {
+export default function AirlineDashboard() {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const refresh = React.useRef(false)
+
+
   const dispatch = useDispatch()
-  const userData = useSelector(selectAdmin).userList
+  const { customers ,flights,tickets, Code,Country,Name} = useSelector(selectAirline)
   const { role } = useSelector(selectUser)
 
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(12);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
   React.useEffect(() => {
     if (refresh.current === true && role === 1) {
       dispatch(fetchUsersAsync())
@@ -95,7 +91,10 @@ export default function AdminDashboard() {
 
         }}
       >
+
+        
         <Grid item xs="auto">
+          
           <Tabs
             orientation="vertical"
             variant="scrollable"
@@ -104,46 +103,42 @@ export default function AdminDashboard() {
             aria-label="Vertical tabs example"
             sx={{ borderRight: 1, borderColor: 'divider', maxWidth: '140px', display: { sm: 'block', xs: 'none' }, left: 0 }}
           >
-            <Tab icon={<PeopleAltIcon />} iconPosition="start" label="Users" {...a11yProps(0)} />
-            <Tab icon={<PublicIcon />} iconPosition="start" label='Countries' {...a11yProps(1)} />
-            <Tab icon={<AirlinesIcon />} iconPosition="start" label="Airlines" {...a11yProps(2)} />
+            {/* <Tab icon={<AirlinesIcon />} iconPosition="start" label="Airline" {...a11yProps(0)} /> */}
+            <Tab icon={<FlightIcon />} iconPosition="start" label='Flights' {...a11yProps(0)} />
+            <Tab icon={<PeopleAltIcon />} iconPosition="start" label="Customers" {...a11yProps(1)} />
+            <Tab icon={<AirplaneTicketIcon />} iconPosition="start" label="Bookings" {...a11yProps(2)} />
             <Tab icon={<ConnectingAirportsIcon />} iconPosition="start" label="Airports" {...a11yProps(3)} />
-            <Tab icon={<SettingsIcon />} iconPosition="start" label="Settings" {...a11yProps(4)} />
-            {/* <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} /> */}
+            {/* <Tab icon={<SettingsIcon />} iconPosition="start" label="Settings"{...a11yProps(4)} /> */}
+            {/*<Tab label="Item Seven" {...a11yProps(6)} /> */}
           </Tabs>
         </Grid>
+        
         <Box sx={{ margin: 'auto', width: { xl: '50%', md: '70%', sm: "500px", xs: "250" } }}>
-{/* 
-        <TablePagination
-        rowsPerPageOptions={[12]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
+          
           <Grid item xs={12} >
+
+            <Box sx={{justifyContent:'space-between',display:'inline-flex', width:'100%'}}>
+            <Typography variant="h1"  sx={{color:'primary.main',alignSelf:'center',padding:1, margin:'auto'}}>{Name}  </Typography>
+            <Typography variant="h2"  sx={{color:'primary.main',alignSelf:'center',padding:1, margin:'auto'}}>{Country}  </Typography>
+            </Box>
             <TabPanel value={value} index={0} >
-              <Users rowsData={userData} />
+            <Flights rowsData={flights} />
             </TabPanel>
-           { console.log(value)}
 
             <TabPanel value={value} index={1}>
-              <Countries />
+              <Customer />
             </TabPanel>
 
             <TabPanel value={value} index={2}>
-              <Airlines />
+              <Booking rows={tickets} />
             </TabPanel>
 
             <TabPanel value={value} index={3}>
-              <Airports />
+            <Airports />
             </TabPanel>
 
             <TabPanel value={value} index={4}>
-              Item Five
+              {/* <Airports /> */}
             </TabPanel>
 
             <TabPanel value={value} index={5}>

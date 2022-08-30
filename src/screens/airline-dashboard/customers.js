@@ -10,12 +10,10 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { Rowing } from '@mui/icons-material';
+import EditCustomer from './edit_customer';
 import TablePagination from '@mui/material/TablePagination';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
-
-import EditUser from './edit_user';
-
+import { selectAirline } from '../../context/airline_company/airlineCompanySlice';
 
 
 
@@ -49,12 +47,26 @@ const Head = (props) => {
   )
 }
 
-const Users = ({ rowsData }) => {
+const Customer = () => {
 
-  const headers = [
-    'id', 'username', 'email', 'first_name', 'last_name', 'last_login'
-  ]
+  const { customers ,flights,tickets, Code,Country,Name} = useSelector(selectAirline)
 
+
+  const customerBooking = ()=>{
+
+    const extendedCustomers =  customers.map(customer=>{
+      const bookings = tickets.filter(ticket => ticket.Customer === customer.id) 
+      return(
+        {
+          ...customer,
+          bookings:bookings
+        }
+      )
+      
+    })
+    return extendedCustomers
+  }
+  const rowsData = customerBooking()
 
   const columns = [
     { value: 'id', align: 'center', label: 'ID', },
@@ -62,65 +74,51 @@ const Users = ({ rowsData }) => {
     { value: 'email', align: 'center', label: 'email', },
     { value: 'first_name', align: 'center', label: 'first name', },
     { value: 'last_name', align: 'center', label: 'last name', },
+    // { value: 'last_login', align: 'center', label: 'LAst Login', },
   ]
 
-  const newRow = (data, children) => {
-    return { data: data, children: children }
+  const newRow = (data,children) => {
+    return { data:data, children: children }
   }
 
   let rows = []
 
 
-  if (rowsData !== []) { rows = rowsData.map(row => newRow(row, <EditUser data={row} />)) }
+  if (rowsData !== []) { rows = rowsData.map(row => newRow(row, <EditCustomer data={row} />)) }
 
   const pageControl = () => {
 
   }
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(13);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+const [page, setPage] = React.useState(0);
+const [rowsPerPage, setRowsPerPage] = React.useState(13);
+
+const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+};
+
+const handleChangeRowsPerPage = (event) => {
+  setRowsPerPage(+event.target.value);
+  setPage(0);
+};
 
 
   return (
     <>
       <Head
-        name='Users'
+        name='Customers'
       ></Head>
-      <TablePagination
-      showFirstButton={true}
-      // showLastButton={true}
-        rowsPerPageOptions={[13]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        SelectProps={{
-          inputProps: {
-            'aria-label': 'rows per page',
-          },
-          native: true,
-        }}
-      />
+
       <CollapsibleTable
         columns={columns}
         rows={rows}
         rowsPerPage={rowsPerPage}
         page={page}
         />
-        
 
     </>
   )
 }
 
-export default Users
+export default Customer

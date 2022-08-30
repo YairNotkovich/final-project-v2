@@ -20,6 +20,7 @@ import SignInPopUp from '../components/sign in popup/SigninPopup';
 import { getUserAsync } from '../context/user/userSlice';
 import StickyFooter from './footer';
 import {selectAirlines} from '../context/airlines/airlinesSlice';
+import { fetchAirlineAsync } from '../context/airline_company/airlineCompanySlice';
 
 const anonPages = [
   { name: 'Far away', to: '/', icon: '' },
@@ -31,30 +32,31 @@ const anonPages = [
 const customerPages = [
   ...anonPages,
   { name: 'Account', to: '/account', icon: '' },
+  { name: 'Bookings', to: '/bookings', icon: '' },
+
   //noah.smith@example.com
 ];
 
 const airlinePages = [
   ...anonPages,
   { name: 'Account', to: '/account', icon: '' },
+  { name: 'Bookings', to: '/bookings', icon: '' },
+  { name: 'Dashboard', to: '/airline', icon: '' },
+
 ];
 
 const adminPages = [
   ...anonPages,
   { name: 'Account', to: '/account', icon: '' },
-  { name: 'Admin', to: '/admin', icon: '' },
+  { name: 'Bookings', to: '/bookings', icon: '' },
+  { name: 'Dashboard', to: '/admin', icon: '' },
 ];
 
 
 const EscAppBar = () => {
 
 
-
-  const location = useLocation()
-  let history = JSON.parse(sessionStorage.getItem("location"))
-
   const dispatch = useDispatch()
-  const {active_airlines} = useSelector(selectAirlines)
   const { avatar, role, username,id } = useSelector(selectUser)
   const { PopupState, authenticated, signInRedirect } = useSelector(selectAuth)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -86,6 +88,7 @@ const EscAppBar = () => {
       return customerPages
     }
     if (role === 3) {
+      dispatch(fetchAirlineAsync())
       return airlinePages
     }
     if (role === 1) {

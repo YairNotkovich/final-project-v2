@@ -5,16 +5,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../context/user/userSlice'
 import { selectAdmin } from '../../context/admin/adminSlice';
 import { AccountProfile } from '../../components/account/account-profile';
-import { Box, TextField } from '@mui/material';
+import { Box, Container, TextField } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { styled } from '@mui/material/styles';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { selectCountries } from '../../context/locations/countries/countriesSlice'
+import EditCountry from './edit_country';
 import TablePagination from '@mui/material/TablePagination';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import LastPageIcon from '@mui/icons-material/LastPage';
 
-import EditUser from './edit_user';
+
+
 
 
 
@@ -49,20 +50,17 @@ const Head = (props) => {
   )
 }
 
-const Users = ({ rowsData }) => {
-
-  const headers = [
-    'id', 'username', 'email', 'first_name', 'last_name', 'last_login'
-  ]
-
+const Countries = () => {
 
   const columns = [
-    { value: 'id', align: 'center', label: 'ID', },
-    { value: 'username', align: 'center', label: 'username', },
-    { value: 'email', align: 'center', label: 'email', },
-    { value: 'first_name', align: 'center', label: 'first name', },
-    { value: 'last_name', align: 'center', label: 'last name', },
+    { value: 'id', align: 'center', label: '', },
+    { value: 'Name', align: 'center', label: 'Country Name', },
+    { value: 'Flag', align: 'center', label: 'Flag URL', },
   ]
+  const dispatch = useDispatch()
+  // const rowsData = useSelector(selectAdmin).userList
+  const { role } = useSelector(selectUser)
+  const rowsData = useSelector(selectCountries)
 
   const newRow = (data, children) => {
     return { data: data, children: children }
@@ -71,7 +69,7 @@ const Users = ({ rowsData }) => {
   let rows = []
 
 
-  if (rowsData !== []) { rows = rowsData.map(row => newRow(row, <EditUser data={row} />)) }
+  if (rowsData !== []) { rows = rowsData.map(row => newRow(row, <EditCountry data={row} />)) }
 
   const pageControl = () => {
 
@@ -90,13 +88,13 @@ const Users = ({ rowsData }) => {
 
 
   return (
-    <>
+    <Grid sx={{ display: "flex", flexDirection: "column" }}>
       <Head
-        name='Users'
+        name='Countries'
       ></Head>
       <TablePagination
-      showFirstButton={true}
-      // showLastButton={true}
+        showFirstButton={true}
+        // showLastButton={true}
         rowsPerPageOptions={[13]}
         component="div"
         count={rows.length}
@@ -114,13 +112,12 @@ const Users = ({ rowsData }) => {
       <CollapsibleTable
         columns={columns}
         rows={rows}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        />
-        
+             rowsPerPage={rowsPerPage}
+        page={page} />
 
-    </>
+
+    </Grid>
   )
 }
 
-export default Users
+export default Countries

@@ -123,7 +123,7 @@ export const AccountProfileDetails = (props) => {
                 label="Phone Number"
                 name="Phone_No"
                 onChange={handleChange}
-                type="number"
+                type="phone"
                 value={values.Phone_No}
                 variant="outlined"
               />

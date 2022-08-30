@@ -5,7 +5,7 @@ import Chip from '@mui/material/Chip';
 import { Box } from '@mui/material';
 
 export default function ToggleTrip() {
-  const [alignment, setAlignment] = React.useState('round');
+  const [alignment, setAlignment] = React.useState('one');
 
   const handleChange = (event, newAlignment) => {
 
@@ -22,11 +22,15 @@ export default function ToggleTrip() {
 
       >
         <ToggleButton
-          onClick={handleChange}
-           value="round" >Round trip</ToggleButton>
-        <ToggleButton
+          sx={{ height: '15px' }}
           onClick={handleChange}
           value="one"  >one way</ToggleButton>
+        <ToggleButton
+          sx={{ height: '15px' }}
+
+          onClick={handleChange}
+          value="round" >Round trip</ToggleButton>
+
 
       </ToggleButtonGroup>
     </Box>

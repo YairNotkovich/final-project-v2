@@ -10,14 +10,14 @@ import { fetchAirportsAsync } from './context/locations/airports/airportsSlice'
 import { fetchCountriesAsync } from './context/locations/countries/countriesSlice'
 import { fetchAirlinesAsync } from './context/airlines/airlinesSlice';
 import FarAway from './screens/faraway';
-import { createEmotionCache } from './utils/create-emotion-cache';
-import Admin from './pages/admin-page';
+import Admin from './pages/system-manage';
+import Airline from './pages/airline-manage'
 import FindFlight from './pages/find-flight';
 import Places from './pages/places';
 import Account from './pages/account';
 import { initTrip } from './context/trip/tripSlice';
+import BookingsPage from './screens/bookings';
 
-const clientSideEmotionCache = createEmotionCache();
 
 
 function App(props) {
@@ -67,9 +67,12 @@ function App(props) {
           <Route path='/' element={<EscAppBar />}>
             <Route index element={<FarAway />} />
             <Route path='/admin' element={<Admin />} />
-            <Route path='/places' element={<Places />} />
             <Route path='/flights' element={<FindFlight />} />
             <Route path='/account' element={<Account />} />
+            <Route path='/airline' element={<Airline />} />
+            <Route path='/bookings' element={<BookingsPage />} />
+
+
 
 
 
