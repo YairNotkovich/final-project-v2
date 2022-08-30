@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer,Serializer
 from .models import *
 from django.contrib.auth import get_user_model
 
@@ -31,19 +31,11 @@ class airlineSerializer(ModelSerializer):
         model = Airline_Company
         fields = '__all__'
 
-
 class userSerializer(ModelSerializer):
-
     class Meta:
         model = get_user_model()
         exclude = ['password',]
 
-
-class CustomerSerializer(ModelSerializer):
-
-    class Meta:
-        model = Customer
-        fields = '__all__'
 
 class UserProfileSerializer(ModelSerializer):
 
@@ -59,8 +51,26 @@ class RoutSerializer(ModelSerializer):
         fields = '__all__'
 
 
+
+class CustomerSerializer(ModelSerializer):
+    
+    class Meta:
+        model = Customer
+        fields = '__all__'
+
 class FlightSerializer(ModelSerializer):
 
     class Meta:
         model = Flight
         fields = '__all__'
+
+
+class ticketSerializer(ModelSerializer):
+
+    class Meta:
+        model= Ticket
+        
+        fields = '__all__'
+        
+
+

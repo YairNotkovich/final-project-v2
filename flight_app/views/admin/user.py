@@ -4,28 +4,27 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import JSONParser
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import get_user_model
-from flight_app.serializers import userSerializer
+from flight_app.serializers import userSerializer, UserProfileSerializer
 from rest_framework import status
 import json
+
+from flight_app.utils.constructors import serializedUser
 
 # 'get', 'post', 'put', 'delete', 'patch', 'head', 'options', 'trace'
 
 modelSerializer = userSerializer
 model = get_user_model()
-
+user_profile = UserProfileSerializer.Meta.model
 
 # get all users / create new user
 @api_view(['GET', 'POST'])
 @staff_member_required
 def user_list(request):
-    # modelSerializer = airlineSerializer
-    # model = modelSerializer.Meta.model
-
+ 
     if request.method == 'GET':
-        # get all objects in the model airline_companies
-        result = model.objects.all()
-
-        return Response(modelSerializer(result, many=True).data)
+        # get all objects in the model user
+        
+        return Response(serializedUser())
 
     elif request.method == 'POST':
         new_obj_data = JSONParser().parse(request)

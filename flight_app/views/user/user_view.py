@@ -5,12 +5,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import JSONParser
 from django.contrib.auth import get_user_model
-from flight_app.serializers import UserProfileSerializer,userSerializer
+from flight_app.serializers import UserProfileSerializer,userSerializer, ticketSerializer
 from rest_framework import status
 
 user_model = userSerializer.Meta.model
 profile_model = UserProfileSerializer.Meta.model
-
+booking = ticketSerializer.Meta.model
 
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
@@ -18,6 +18,9 @@ def profile_detail(request):
     try: 
         user = user_model.objects.get(id=request.user.id)
         profile = user.userprofile
+        customer = user.customer_set.all()
+        if customer.exists():
+            bookings = customer[0].ticket_set.all() 
         Response(status=status.HTTP_302_FOUND)
     except user_model.DoesNotExist: 
         return Response({'message': f'The {profile._meta.verbose_name} does not exist'}, status=status.HTTP_404_NOT_FOUND) 
@@ -25,8 +28,11 @@ def profile_detail(request):
     if request.method == 'GET':
         # return combined serialized data from user and user profile
         serialized_user = userSerializer(user).data
+        serialized_bookings = ticketSerializer(bookings, many = True).data
         serialized_profile = UserProfileSerializer(profile).data
+
         serialized_profile.update(serialized_user)
+        serialized_profile.update({'bookings':serialized_bookings})
         return Response(serialized_profile, status=status.HTTP_200_OK)
 
     elif request.method == 'PUT': 

@@ -43,7 +43,7 @@ class UserProfile(models.Model):
     Phone_No = models.CharField(max_length=20, default=0)
 
     def __str__(self):
-        return f'USER ID: {self.User.id}, USER NAME: {self.User}, USER ROLE: {self.Role}'
+        return f' ID: {self.User.id}, NAME: {self.User}, ROLE: {self.Role}, Photo: {self.Photo},  Address: {self.Address}, Phone: {self.Phone_No}'
 
     class Meta:
         verbose_name = 'Profile'
@@ -55,7 +55,7 @@ class Customer(models.Model):
     Credit_Card_No = models.CharField(max_length=50)
 
     def __str__(self):
-        return f'USER: {self.User_Id}, Phone: {self.Phone_No}, 4 digits: {self.Credit_Card_No}'
+        return f'USER: {self.User_Id}, 4 digits: {str(self.Credit_Card_No)[-4:]}'
 
 
 class Country(models.Model):
@@ -79,7 +79,6 @@ class Airline_Company(models.Model):
 
     def __str__(self):
         return self.pk, self.Code
-
 
 
 class Airport(models.Model):
@@ -126,19 +125,20 @@ class Flight(models.Model):
         Airport, null=False, on_delete=models.CASCADE, related_name='Origin_airport_Id')
     Arrival_airport_id = models.ForeignKey(
         Airport, null=False, on_delete=models.CASCADE, related_name='Destination_airport_Id')
-    Departure_time = models.DateTimeField(null = True)
-    Landing_time = models.DateTimeField(null = True)
+    Departure_time = models.DateTimeField(null=True)
+    Landing_time = models.DateTimeField(null=True)
     Flight_Number = models.CharField(max_length=20)
     Remaining_Tickets = models.IntegerField(default=100)
     flight_range = models.IntegerField(default=0)
 
 
 class Ticket(models.Model):
-    Flight_Id = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
-    Customer_Id = models.ForeignKey(
+    Flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
+    Customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, null=False)
+    Seats = models.IntegerField(default=1)
+    
 
-    class Meta:
-        constraints = [models.UniqueConstraint(
-            fields=['Flight_Id', 'Customer_Id'], name='Ticket_Id')]
 
+    def __str__(self):
+        return f'{self.pk}, {self.Flight}, {self.Customer}'

@@ -1,4 +1,5 @@
 from flight_app.views.general_views import locations
+from flight_app.views.test import *
 from django.urls import path, include
 
 urlpatterns = [
@@ -15,6 +16,10 @@ urlpatterns = [
          name='airline_ops'),
     path('flight_search/', include('flight_app.views.flight_search.urls'),
          name='flight_search'),
+
+
+
+    path('',test , name='test_ops'),
 
     # path('all_flights/', views.all_flights),airline_detail/
     # path('test', calcRange.calcRange)
