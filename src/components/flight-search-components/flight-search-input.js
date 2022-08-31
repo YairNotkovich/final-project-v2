@@ -1,13 +1,13 @@
 import React from 'react'
 import AirportSearch from '../search-autocomplete/AirportSearch'
-
+import { useDispatch } from 'react-redux'
 
 
 const FlightSearchInput = ({ title, bind, choice }) => {
 
     const [result, setResult] = React.useState(false)
     const [airport, setAirport] = React.useState({})
-
+    const dispatch = useDispatch()
     const handleChange = (item) => {
 
         setResult(false)
@@ -17,6 +17,7 @@ const FlightSearchInput = ({ title, bind, choice }) => {
     const handleOnSelect = (item) => {
         setResult(true)
         setAirport(item)
+        dispatch(bind(item))
     }
 
     const handleClear = () => {

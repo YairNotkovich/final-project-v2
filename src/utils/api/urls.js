@@ -31,10 +31,13 @@ export const USER_URL = {
     UPLOAD_IMAGE: "/user/upload_image/"
 }
 
-export const CUSTOMER_URL =(origin_id,dest_id,depart,back) =>({
-    SEARCH_FLIGHT:`anon/<int:${origin_id}>/<int:${dest_id}>/<${depart}>/${back &&`<${back}>/`}`,
+export const FLIGHT_URL =(origin_id,dest_id,depart,back) =>({
+    SEARCH_FLIGHT:`flight_search/anon/${origin_id}/${dest_id}/${depart}/${back &&`${back}/`}`,
 })
 
+export const BOOK_FLIGHT = (flight, seats=1) =>(
+`/user/book_flight/${flight}/1/`
+)
 
 export const AIRLINE_URL = {
     AIRLINES_LIST:"/supplier/airline_list/",

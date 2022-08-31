@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import { FLIGHT_URL } from '../../utils/api/urls';
+import { searchFlights } from './tripApi'
 // const fullDate = new Date().toUTCString()
 const now = new Date()
 
@@ -25,11 +26,29 @@ const initialState = {
     departureAirport: {},
     destinationAirport: {},
 
-    travelers: 0,
-
+    travelers: 1,
+    flight_offers:[],
 };
 
+export const searchFlightAsync = createAsyncThunk(
 
+    "trip/search_flights",
+    async (arg, { getState }) => {
+        const trip = getState().trip
+        // console.log(trip)
+        const response = await searchFlights(
+            FLIGHT_URL(JSON.stringify(trip.departureAirport.id),
+                JSON.stringify(trip.destinationAirport.id),
+                date_objToString(trip.departureDate),
+                date_objToString(trip.returnDate)).SEARCH_FLIGHT)
+
+            console.log(response)
+        return response.data
+    }
+
+
+
+)
 
 export const tripSlice = createSlice({
     name: 'trip',
@@ -47,11 +66,11 @@ export const tripSlice = createSlice({
         },
 
         setDepartureAirport: (state, action) => {
-            // state.range = action.payload;
+            state.departureAirport = action.payload;
         },
 
         setDestinationAirport: (state, action) => {
-            // state.suggestAirportsInRange = action.payload;
+            state.destinationAirport = action.payload;
         },
 
         setTravelers: (state, action) => {
@@ -65,17 +84,17 @@ export const tripSlice = createSlice({
 
 
     },
-    // extraReducers: (builder) => {
-    //     builder
+    extraReducers: (builder) => {
+        builder
 
-    //         .addCase(fetchAirportsAsync.rejected, (action) => {
-    //             console.log(action)
-    //         })
+            .addCase(searchFlightAsync.fulfilled, (state, action) => {
+                state.flight_offers= action.payload
+            })
 
-    // }
+    }
 })
 
-export const { setDepartureDate, setReturnDate, setArrivalDate, setDepartureAirport, setArrivalAirport, initTrip } = tripSlice.actions;
+export const { setDepartureDate, setReturnDate, setArrivalDate, setDepartureAirport, setDestinationAirport, initTrip } = tripSlice.actions;
 export const selectTrip = (state) => state.trip
 
 export default tripSlice.reducer

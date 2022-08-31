@@ -16,24 +16,13 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import AirplaneTicketIcon from '@mui/icons-material/AirplaneTicket';
 import { selectUser } from '../context/user/userSlice';
-import selectFlights
+// import selectFlights
 import { useSelector } from 'react-redux';
 import Ticket from '../components/booking/ticket';
+import { selectAirports } from '../context/locations/airports/airportsSlice';
 
 
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
 
 
 
@@ -41,78 +30,87 @@ function Copyright() {
 
 export default function BookingsPage() {
 
-    const {bookings} = useSelector(selectUser)
+    const { flights, bookings } = useSelector(selectUser)
 
-    const cards = bookings;
+
+
+
+    const airports = useSelector(selectAirports)
+
+    const decodeFlights = () => {
+
+        const newFlights = flights.map(flight => {
+            const depId = flight.Departure_airport_id;
+            const arrId = flight.Arrival_airport_id;
+            const depart = airports.find(airport => airport.id === depId)
+            console.log(depart)
+            const dest = airports.find(airport => airport.id === arrId)
+            return (
+                {
+                    ...flight,
+                    depart_city: depart.city,
+                    depart_country: depart.country_name,
+                    depart_airport: depart.display_name,
+                    dest_city: dest.city,
+                    dest_country: dest.country_name,
+                    dest_airport: dest.display_name,
+                }
+            )
+        })
+        return newFlights
+    }
+
+    const cards = decodeFlights();
+
 
     return (
 
         <>
             <AppBar position="relative">
                 <Toolbar>
-                    <AirplaneTicketIcon sx={{ mr: 2, borderTopWidth:'75px' }} />
+                    <AirplaneTicketIcon sx={{ mr: 2, borderTopWidth: '75px' }} />
                     <Typography variant="h5" color="inherit" noWrap>
                         Your Bookings                    </Typography>
                 </Toolbar>
             </AppBar>
             <main>
-                {/* Hero unit */}
-                {/* <Box
-                    sx={{
-                        bgcolor: 'background.paper',
-                        pt: 8,
-                        pb: 6,
-                    }}
-                >
-                    {/* <Container maxWidth="sm">/ */}
-                        {/* <Typography
-                            component="h1"
-                            variant="h2"
-                            align="center"
-                            color="text.primary"
-                            gutterBottom
-                        >
-                            Album layout
-                        </Typography>
-                        <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                            Something short and leading about the collection below—its contents,
-                            the creator, etc. Make it short and sweet, but not too short so folks
-                            don&apos;t simply skip over it entirely.
-                        </Typography> */}
-                        {/* <Stack
-                            sx={{ pt: 4 }}
-                            direction="row"
-                            spacing={2}
-                            justifyContent="center"
-                        >
-                            <Button variant="contained">Main call to action</Button>
-                            <Button variant="outlined">Secondary action</Button>
-                        </Stack> */}
-                    {/* </Container> */}
-                {/* </Box> */} 
+
                 <Container sx={{ py: 8 }} maxWidth="md">
-                    {/* End hero unit */}
                     <Grid container spacing={4}>
                         {cards.map((card) => (
                             <Grid item key={card} xs={12} sm={6} md={4}>
-                                
+
                                 <Card
                                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                                 >
-                                  
+
                                     <CardContent sx={{ flexGrow: 1 }}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {card.Flight}
-                                        </Typography>
+                                        <Box sx={{ height: '100px', justifyContent: 'space-between', display: 'flex', flexDirection: 'row', alignContent: 'center' }} >
+                                            <Typography sx={{ alignSelf: 'center' }} gutterBottom variant="h5" component="h2">
+                                                {card.Flight_Number}
+                                            </Typography>
+                                            <Typography gutterBottom >
+                                                <Box sx={{ maxWidth: '100px', justifyContent: 'space-between', display: 'flex', flexDirection: 'column' }} >
+                                                    <Typography gutterBottom sx={{ fontWeight:'bold'}} >
+                                                        {card.depart_airport}
+                                                    </Typography>
+                                                    <Typography gutterBottom variant="body2">
+                                                        {card.depart_country}
+                                                    </Typography>
+                                                    <Typography gutterBottom sx={{ fontWeight:'bold'}}>
+                                                        {card.dest_airport}
+                                                    </Typography>
+                                                    <Typography gutterBottom variant="body2">
+                                                        {card.dest_country}
+                                                    </Typography>
+                                                </Box>
+                                            </Typography>
+                                        </Box>
                                         <Typography>
-                                            This is a media card. You can use this section to describe the
-                                            content.
+                                            {card.Departure_time}
                                         </Typography>
                                     </CardContent>
-                                    <CardActions>
-                                        <Button size="small">View</Button>
-                                        <Button size="small">Edit</Button>
-                                    </CardActions>
+
                                 </Card>
                             </Grid>
                         ))}

@@ -120,7 +120,21 @@ const EditUser = ({ data}, props) => {
                                 variant="outlined"
                             />
                         </Grid>
-
+                        <Grid
+                            item
+                            md={6}
+                            xs={12}
+                        >
+                            <TextField
+                                fullWidth
+                                label="Role"
+                                name="Role"
+                                onChange={handleChange}
+                                type="number"
+                                value={values.Role}
+                                variant="outlined"
+                            />
+                        </Grid>
                         <Grid
                             item
                             md={6}

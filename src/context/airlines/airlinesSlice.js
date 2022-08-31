@@ -1,6 +1,6 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getAirlines } from './airlineOpenAPI'
+import { getAirlines, searchFlights } from './airlineOpenAPI'
 
 const initialState = {
     airlines_list: [],

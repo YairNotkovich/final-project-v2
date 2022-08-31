@@ -35,7 +35,6 @@ export default function StickyFooter() {
             >
                 <Container >
                     <Typography variant="body1">
-                        My sticky footer can be found here.
                     </Typography>
                     <Copyright />
                 </Container>

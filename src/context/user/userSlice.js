@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import jwtDecode from 'jwt-decode';
 import { IMAGE_URL } from '../../utils/api/urls';
 import { uploadPicture, getUserProfile, updateUserProfile } from './userAPI'
-
+import { bookFlight } from './userAPI';
 const initialState = {
     email: "",
     username: "",
@@ -17,6 +17,7 @@ const initialState = {
     Phone_No: "",
     credit: "",
     bookings: [],
+    flights:[],
     Address: { street: '', state: '', city: '', postcode: '' },
     airline_code: "",
     airline_name: "",
@@ -42,6 +43,15 @@ export const uploadPictureAsync = createAsyncThunk(
     }
 )
 
+export const bookFlightAsync = createAsyncThunk(
+    "user/bookFlight",
+    async (flight, seats) => {
+
+        const response = await bookFlight(flight)
+        console.log(response)
+        return response.data;
+    }
+)
 
 export const getUserAsync = createAsyncThunk(
     "user/get_profile",
@@ -117,6 +127,9 @@ export const userSlice = createSlice({
                     state.airline_code = action.payload.Code
                     state.airline_name = action.payload.Name
                 }
+            })
+            .addCase(bookFlightAsync.fulfilled, (state, action) => {
+                console.log(action.payload)
             })
     }
 
